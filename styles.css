@@ -372,6 +372,9 @@ section{ padding:80px 0; position:relative; }
 .product-grid{
   display:grid; grid-template-columns:repeat(3,1fr); gap:26px;
 }
+.product-grid:has(> .product-card:only-child){
+  grid-template-columns:1fr; max-width:380px; margin:0 auto;
+}
 .product-card{
   background:#fff;
   border:3px solid var(--tinta);
@@ -423,6 +426,8 @@ section{ padding:80px 0; position:relative; }
 }
 .add-btn:hover{ background:var(--rojo); }
 .add-btn.added{ background:var(--oliva); }
+.add-btn.coming-soon{ background:transparent; color:var(--tinta); border:2px dashed var(--tinta); cursor:not-allowed; justify-content:center; }
+.add-btn.coming-soon:hover{ background:transparent; }
 
 /* ==== Why us ==== */
 .why{ background:var(--tinta); color:var(--crema); position:relative; overflow:hidden; }

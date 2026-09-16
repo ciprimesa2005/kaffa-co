@@ -13,43 +13,8 @@ const PRODUCTS = [
     badge: "EL CLÁSICO",
     badgeType: "",
     img: "assets/img/castillo-label.jpg",
-    labelStyle: true
-  },
-  {
-    id: "hoodie-street",
-    name: "Hoodie Kaffa Street",
-    kind: "merch",
-    kindLabel: "Merch · Unisex",
-    desc: "Buso oversize con el bordado del grano rockero. Algodón pesado 320gsm.",
-    price: 129000,
-    oldPrice: null,
-    badge: "",
-    badgeType: "",
-    img: "assets/img/mascot-army.png"
-  },
-  {
-    id: "taza-kaffa",
-    name: "Taza Kaffa & CO",
-    kind: "merch",
-    kindLabel: "Merch · Cerámica 350ml",
-    desc: "Para tu ritual diario. Ilustrada con el mascotón oficial de la marca.",
-    price: 32000,
-    oldPrice: null,
-    badge: "",
-    badgeType: "",
-    img: "assets/img/mascot-hero.jpg"
-  },
-  {
-    id: "sticker-pack",
-    name: "Pack Stickers Kaffa",
-    kind: "merch",
-    kindLabel: "Merch · Set x6",
-    desc: "Vinil resistente al agua. Decora tu termo, tu laptop, tu vida.",
-    price: 15000,
-    oldPrice: null,
-    badge: "GANGA",
-    badgeType: "gold",
-    img: "assets/img/mascot-clean.jpg"
+    labelStyle: true,
+    comingSoon: true
   }
 ];
 
@@ -219,7 +184,9 @@ function renderProducts(filter = "all"){
         <div class="price-row">
           <span class="price">${p.oldPrice ? `<span class="old">${money(p.oldPrice)}</span>` : ""}${money(p.price)}</span>
         </div>
-        <button class="add-btn" onclick="addToCart('${p.id}')">Añadir al carrito +</button>
+        ${p.comingSoon
+          ? `<button class="add-btn coming-soon" disabled>Coming Soon</button>`
+          : `<button class="add-btn" onclick="addToCart('${p.id}')">Añadir al carrito +</button>`}
       </div>
     </div>
   `).join("");
@@ -259,11 +226,20 @@ function renderDrops(){
 }
 
 // ===== Drop countdown (targets next Sunday 20:00 as example live-drop end) =====
+const DROP_COUNTDOWN_HOURS = 38;
+function getDropCountdownEnd(){
+  const stored = localStorage.getItem("dropCountdownEnd");
+  if(stored){
+    const end = new Date(parseInt(stored, 10));
+    if(end > new Date()) return end;
+  }
+  const end = new Date(Date.now() + DROP_COUNTDOWN_HOURS * 3600000);
+  localStorage.setItem("dropCountdownEnd", end.getTime());
+  return end;
+}
 function tickDropTimer(){
   const now = new Date();
-  const end = new Date(now);
-  end.setDate(now.getDate() + ((7 - now.getDay()) % 7 || 7));
-  end.setHours(20,0,0,0);
+  const end = getDropCountdownEnd();
   const diff = end - now;
   const h = Math.floor(diff/3600000);
   const m = Math.floor((diff%3600000)/60000);
