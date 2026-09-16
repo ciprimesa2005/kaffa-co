@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kaffa & CO — Café Clásico + Drops de Edición Limitada</title>
+<meta name="description" content="Café colombiano de especialidad con actitud street. Línea Clásica siempre disponible + Drops de edición limitada por temporada. Únete al hype.">
+<link rel="icon" href="assets/img/mascot-clean.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=4">
+</head>
+<body>
+
+<!-- Marquee -->
+<div class="marquee">
+  <div class="marquee-track" id="marqueeTrack">
+    <span>ENVÍO GRATIS DESDE $120.000</span>
+    <span>TOSTADO POR ORDEN, NUNCA EN BODEGA</span>
+    <span>100% CAFÉ DE ORIGEN COLOMBIANO</span>
+    <span>ENVÍO GRATIS DESDE $120.000</span>
+    <span>TOSTADO POR ORDEN, NUNCA EN BODEGA</span>
+    <span>100% CAFÉ DE ORIGEN COLOMBIANO</span>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="site">
+  <nav class="nav">
+    <a href="#top" class="brand">
+      <img src="assets/img/mascot-mug.jpg" alt="Kaffa & CO" class="brand-logo">
+    </a>
+    <div class="nav-links">
+      <a href="#drops">🔥 Drops</a>
+      <a href="#productos">Clásico</a>
+      <a href="#historia">Nuestra Finca</a>
+      <a href="#reviews">Reseñas</a>
+      <a href="#faq">Preguntas</a>
+    </div>
+    <div class="nav-actions">
+      <button class="icon-btn" id="openCart">🛒 Carrito <span class="cart-count" id="cartCount">0</span></button>
+      <button class="menu-toggle" id="menuToggle">☰</button>
+    </div>
+  </nav>
+</header>
+
+<!-- Hero -->
+<section class="hero" id="top">
+  <div class="hero-grid">
+    <div class="hero-copy reveal in">
+      <h1>Fresco como <em>la montaña</em></h1>
+      <p class="lead">Kaffa Clásico es el café tradicional que nunca falta. Kaffa Drops son ediciones limitadas por temporada, con unidades contadas — cuando se agotan, se agotan. Si sabes, sabes.</p>
+      <div class="hero-ctas">
+        <a href="#drops" class="btn btn-primary">🔥 Ver el drop activo</a>
+        <a href="#productos" class="btn btn-outline">Comprar el Clásico →</a>
+      </div>
+      <div class="hero-stats">
+        <div><strong>150</strong><span>Unidades numeradas</span></div>
+        <div><strong>01</strong><span>Drop de lanzamiento</span></div>
+        <div><strong>+1.800</strong><span>En la tribu Kaffa</span></div>
+      </div>
+    </div>
+    <div class="hero-visual reveal in">
+      <div class="hero-badge">EDICIÓN<br>LIMITADA<br>DROP 001</div>
+      <img src="assets/img/mascot-mountain-scene.png" alt="Mascota Kaffa & CO en la montaña">
+    </div>
+  </div>
+</section>
+
+<!-- Trust bar -->
+<div class="trustbar">
+  <div class="container">
+    <div class="trustbar-item"><span class="ic">🚚</span> Envío gratis +$120.000</div>
+    <div class="trustbar-item"><span class="ic">🔥</span> Drops nuevos cada temporada</div>
+    <div class="trustbar-item"><span class="ic">💬</span> Pedidos por WhatsApp en 1 clic</div>
+    <div class="trustbar-item"><span class="ic">🌱</span> Compra directa a caficultores</div>
+  </div>
+</div>
+
+<!-- Drops -->
+<section class="drops" id="drops">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag" style="color:var(--gold)">Edición limitada</span>
+      <h2>Kaffa Drops</h2>
+      <p>Nuestro drop de lanzamiento: un micro-lote experimental, unidades contadas y numeradas. Cuando se acaba, se acaba de verdad — no reponemos.</p>
+    </div>
+    <div class="drop-banner reveal">
+      <div class="drop-banner-copy">
+        <span class="drop-live">● EN VIVO AHORA</span>
+        <h3>DROP 001 — "Bourbon Rosado"</h3>
+        <p>Origen Villa Restrepo, Tolima · 1.750 msnm. Variedad Bourbon Rosado, proceso semi-lavado. Notas a frutos rojos, almendra y melón. El primer drop de Kaffa & CO — no se repite.</p>
+      </div>
+      <div class="timer drop-timer" id="dropTimer">
+        <div><strong id="d-h">00</strong><span>Horas</span></div>
+        <div><strong id="d-m">00</strong><span>Min</span></div>
+        <div><strong id="d-s">00</strong><span>Seg</span></div>
+      </div>
+    </div>
+
+    <div class="drop-grid" id="dropGrid"></div>
+
+    <div class="drop-waitlist reveal">
+      <div>
+        <h4>¿Te lo perdiste? No te pierdas el próximo.</h4>
+        <p>Entra a la lista VIP y recibe acceso 2 horas antes que todo el mundo al próximo drop.</p>
+      </div>
+      <form class="newsletter-form" id="waitlistForm">
+        <input type="email" placeholder="tu@correo.com" required>
+        <button type="submit" class="btn btn-primary">Quiero acceso VIP</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Products (Clásico) -->
+<section class="products" id="productos">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">Línea permanente</span>
+      <h2>Kaffa Clásico</h2>
+      <p>El café de todos los días, sin drama de stock. Mismo compromiso de frescura, disponible siempre que lo necesites.</p>
+    </div>
+
+    <div class="filter-row reveal">
+      <button class="filter-btn active" data-filter="all">Todos</button>
+      <button class="filter-btn" data-filter="grano">Café Castillo</button>
+      <button class="filter-btn" data-filter="merch">Merch</button>
+    </div>
+
+    <div class="product-grid" id="productGrid"></div>
+  </div>
+</section>
+
+<!-- Story -->
+<section class="story" id="historia">
+  <div class="container">
+    <div class="story-grid">
+      <div class="story-photos reveal">
+        <div class="tag-sticker">DESDE<br>LA FINCA</div>
+        <img src="assets/img/farm-1.jpg" alt="Granos de café en la planta">
+        <img src="assets/img/farm-hands-1.jpg" alt="Manos cosechando café">
+        <img src="assets/img/farm-2.jpg" alt="Cafetal">
+        <img src="assets/img/farm-6.jpg" alt="Grano verde en las manos">
+      </div>
+      <div class="story-copy reveal">
+        <h3>Nuestra historia</h3>
+        <h2>De la montaña colombiana a tu mesa, sin intermediarios raros.</h2>
+        <p>Kaffa &amp; CO nació con una idea simple: el café de especialidad no tiene que ser aburrido. Trabajamos directo con caficultores de las montañas de Colombia, seleccionamos los mejores lotes y los tostamos en tandas pequeñas — nunca en masa, nunca en bodega esperando meses.</p>
+        <ul class="story-list">
+          <li>Compra directa y justa a familias caficultoras</li>
+          <li>Trazabilidad: sabes de qué finca salió tu café</li>
+          <li>Tueste artesanal, controlado taza por taza</li>
+          <li>Empaque con válvula que conserva el aroma real</li>
+        </ul>
+        <a href="#productos" class="btn btn-dark">Probar el café →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Why us -->
+<section class="why">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag" style="color:var(--gold)">Por qué Kaffa &amp; CO</span>
+      <h2>No es solo café. Es una actitud.</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal"><span class="ic">🌄</span><h4>100% origen Colombia</h4><p>Cada grano viene de fincas seleccionadas en zona cafetera, cosechado en su punto justo.</p></div>
+      <div class="why-card reveal"><span class="ic">🔥</span><h4>Tueste bajo pedido</h4><p>No tostamos hasta que llega tu pedido. Recibes café fresco, no café viejo con marketing.</p></div>
+      <div class="why-card reveal"><span class="ic">🤘</span><h4>Marca con calle</h4><p>Sofisticación de especialidad, actitud de barrio. Café para quien vive intenso.</p></div>
+      <div class="why-card reveal"><span class="ic">📦</span><h4>Llega rápido y fresco</h4><p>Empacamos con válvula desgasificante y despachamos en menos de 48 horas.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Urgency / hype proof -->
+<section class="urgency">
+  <div class="container">
+    <div>
+      <h3>🚀 Bourbon Rosado — nuestro primer drop, en vivo</h3>
+      <p>Solo 150 unidades numeradas. Es la primera vez que sacamos este micro-lote y no se va a repetir — cuando se agote, toca esperar al Drop 02.</p>
+    </div>
+    <a href="#drops" class="btn btn-dark">Reservar el mío →</a>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testi" id="reviews">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">Reseñas</span>
+      <h2>Lo que dice nuestra tribu</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p>"Pedí el Huila en grano y llegó tan fresco que se notaba la crema del espresso al toque. Ya no vuelvo a comprar café de supermercado."</p>
+        <div class="testi-user"><div class="testi-avatar">JM</div><div><strong>Juliana M.</strong><span>Bogotá</span></div></div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p>"La actitud de la marca me encantó desde el empaque. Y el café está a la altura: notas a panela y frutos rojos, brutal."</p>
+        <div class="testi-user"><div class="testi-avatar">DC</div><div><strong>David C.</strong><span>Medellín</span></div></div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p>"Pedí por WhatsApp, me respondieron al toque y en dos días ya estaba tomando café en casa. Servicio impecable."</p>
+        <div class="testi-user"><div class="testi-avatar">VS</div><div><strong>Valentina S.</strong><span>Cali</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Social -->
+<section class="social">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">Síguenos</span>
+      <h2>@kaffaandco en tu feed</h2>
+    </div>
+    <div class="social-grid">
+      <a href="#" class="reveal"><img src="assets/img/post-1.png" alt="Kaffa & CO Instagram"></a>
+      <a href="#" class="reveal"><img src="assets/img/farm-3.jpg" alt="Finca de café"></a>
+      <a href="#" class="reveal"><img src="assets/img/post-3.png" alt="Kaffa & CO mascota"></a>
+      <a href="#" class="reveal"><img src="assets/img/farm-4.jpg" alt="Cosecha de café"></a>
+      <a href="#" class="reveal"><img src="assets/img/social-2.png" alt="Café en grano"></a>
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter -->
+<section class="newsletter">
+  <div class="container">
+    <span class="section-tag" style="color:var(--gold)">10% OFF + ACCESO VIP</span>
+    <h2>Únete a la tribu Kaffa</h2>
+    <p>Suscríbete y recibe 10% en tu primer pedido, más acceso anticipado a cada drop antes que se agote — porque siempre se agota.</p>
+    <form class="newsletter-form" id="newsForm">
+      <input type="email" placeholder="tu@correo.com" required>
+      <button type="submit" class="btn btn-primary">Quiero mi 10%</button>
+    </form>
+    <p class="newsletter-note">Cero spam. Solo café y novedades reales.</p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="section-head reveal" style="margin:0 auto 44px; text-align:center;">
+      <span class="section-tag">Dudas</span>
+      <h2>Preguntas frecuentes</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q"><span>¿Cómo funcionan los Drops?</span><span class="plus">+</span></button>
+        <div class="faq-a"><p>Cada temporada lanzamos un lote experimental de café de especialidad, en unidades limitadas y numeradas. Se agotan y no se reponen — cuando vuelan, es momento de esperar el siguiente drop.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>¿Cada cuánto tuestan el café?</span><span class="plus">+</span></button>
+        <div class="faq-a"><p>Tostamos una vez por semana, en lotes pequeños. Tu pedido entra en la próxima tanda disponible, así que nunca recibes café de más de unos días de tostado.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>¿Hacen envíos a todo Colombia?</span><span class="plus">+</span></button>
+        <div class="faq-a"><p>Sí, despachamos a nivel nacional. Envío gratis en pedidos desde $120.000 y tiempo de entrega de 2 a 4 días hábiles según ciudad.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>¿Puedo elegir el tipo de molienda?</span><span class="plus">+</span></button>
+        <div class="faq-a"><p>Claro. Al finalizar tu pedido por WhatsApp cuéntanos si lo quieres en grano entero, molido para cafetera, para prensa francesa o para espresso.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>¿Cómo pago mi pedido?</span><span class="plus">+</span></button>
+        <div class="faq-a"><p>Al dar clic en "Comprar" te llevamos directo a WhatsApp con tu carrito armado. Ahí coordinamos pago (transferencia, Nequi o contraentrega según tu ciudad).</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="assets/img/mascot-clean.jpg" alt="Kaffa & CO">
+        <p>Café de especialidad colombiano. Fresco como la montaña, con actitud de calle. Tostado en pequeños lotes para quienes viven el café en serio.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="TikTok">TT</a>
+          <a href="https://wa.me/573024645777" aria-label="WhatsApp" target="_blank" rel="noopener">WA</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Tienda</h4>
+        <ul>
+          <li><a href="#drops">Drops de edición limitada</a></li>
+          <li><a href="#productos">Kaffa Clásico</a></li>
+          <li><a href="#productos">Merch</a></li>
+          <li><a href="#drops">Lista VIP</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Marca</h4>
+        <ul>
+          <li><a href="#historia">Nuestra finca</a></li>
+          <li><a href="#reviews">Reseñas</a></li>
+          <li><a href="#faq">Preguntas frecuentes</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="https://wa.me/573024645777" target="_blank" rel="noopener">WhatsApp: +57 302 464 5777</a></li>
+          <li><a href="mailto:kaffaandco@gmail.com">kaffaandco@gmail.com</a></li>
+          <li><a href="#">Bogotá, Colombia</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Kaffa &amp; CO. Todos los derechos reservados.</span>
+      <span>Fresco como la montaña 🤘</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Sticky mobile CTA -->
+<div class="sticky-cta">
+  <span style="font-family:'Anton',sans-serif;color:var(--crema);font-size:.85rem;">¿Listo para tu café?</span>
+  <a href="#productos" class="btn btn-primary">Comprar ahora</a>
+</div>
+
+<!-- Cart -->
+<div class="overlay" id="overlay"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-head">
+    <h3>Tu carrito</h3>
+    <button class="cart-close" id="closeCart">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-foot">
+    <p class="free-ship-note" id="shipNote"></p>
+    <div class="cart-total-row"><span>Total</span><span id="cartTotal">$0</span></div>
+    <a href="#" class="btn btn-primary" id="checkoutBtn">Comprar por WhatsApp →</a>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="app.js?v=3"></script>
+</body>
+</html>
