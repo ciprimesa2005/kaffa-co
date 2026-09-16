@@ -269,13 +269,12 @@ function tickDropTimer(){
 setInterval(tickDropTimer, 1000);
 tickDropTimer();
 
-// ===== Waitlist form =====
+// ===== Waitlist form (envía a Mailchimp, abre confirmación en pestaña nueva) =====
 const waitlistForm = document.getElementById("waitlistForm");
 if(waitlistForm){
-  waitlistForm.addEventListener("submit", e => {
-    e.preventDefault();
-    showToast("¡Estás en la lista VIP! Te avisamos antes que a nadie 🔥");
-    e.target.reset();
+  waitlistForm.addEventListener("submit", () => {
+    showToast("¡Casi listo! Revisa tu correo para confirmar 🔥");
+    setTimeout(() => waitlistForm.reset(), 300);
   });
 }
 
@@ -307,11 +306,11 @@ document.querySelectorAll(".faq-q").forEach(btn => {
   });
 });
 
-// ===== Newsletter =====
-document.getElementById("newsForm").addEventListener("submit", e => {
-  e.preventDefault();
-  showToast("¡Listo! Revisa tu correo por el código 🎉");
-  e.target.reset();
+// ===== Newsletter (envía a Mailchimp, abre confirmación en pestaña nueva) =====
+const newsForm = document.getElementById("newsForm");
+newsForm.addEventListener("submit", () => {
+  showToast("¡Casi listo! Confirma en tu correo para recibir el código 🎉");
+  setTimeout(() => newsForm.reset(), 300);
 });
 
 // ===== Reveal on scroll =====
