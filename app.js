@@ -1,5 +1,5 @@
 // ===== Kaffa & CO — catálogo =====
-const WHATSAPP_NUMBER = "573024645777";
+const WHATSAPP_NUMBERS = ["573024645777", "573165795612"];
 
 const PRODUCTS = [
   {
@@ -168,9 +168,13 @@ function renderCart(){
 }
 
 function buildCheckoutLink(total){
-  const btn = document.getElementById("checkoutBtn");
+  const btn1 = document.getElementById("checkoutBtn1");
+  const btn2 = document.getElementById("checkoutBtn2");
+  if(!btn1 || !btn2) return;
+
   if(cart.length === 0){
-    btn.href = "#";
+    btn1.href = "#";
+    btn2.href = "#";
     return;
   }
   let msg = "¡Hola Kaffa & CO! Quiero pedir:\n\n";
@@ -179,8 +183,12 @@ function buildCheckoutLink(total){
     if(p) msg += `• ${p.name} (${p.kindLabel}) x${c.qty} — ${money(p.price*c.qty)}\n`;
   });
   msg += `\nTotal: ${money(total)}\n\n¿Cómo sigo con el pago?`;
-  btn.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
-  btn.target = "_blank";
+  const encodedMsg = encodeURIComponent(msg);
+
+  btn1.href = `https://wa.me/${WHATSAPP_NUMBERS[0]}?text=${encodedMsg}`;
+  btn1.target = "_blank";
+  btn2.href = `https://wa.me/${WHATSAPP_NUMBERS[1]}?text=${encodedMsg}`;
+  btn2.target = "_blank";
 }
 
 // ===== Toast =====

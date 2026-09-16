@@ -578,6 +578,9 @@ footer{ background:var(--tinta); color:var(--crema-2); padding:64px 0 24px; }
 .cart-total-row{ display:flex; justify-content:space-between; font-family:'Anton',sans-serif; font-size:1.2rem; margin-bottom:14px; }
 .cart-foot .btn{ width:100%; justify-content:center; }
 .free-ship-note{ font-size:.82rem; text-align:center; margin-bottom:12px; color:var(--oliva-dark); }
+.whatsapp-choice-label{ font-size:.8rem; text-align:center; margin:0 0 8px; color:#7a7160; text-transform:uppercase; letter-spacing:.5px; }
+.whatsapp-choice-row{ display:flex; gap:10px; }
+.whatsapp-choice-row .btn{ padding:14px 10px; font-size:.82rem; }
 
 /* ==== Toast ==== */
 .toast{
