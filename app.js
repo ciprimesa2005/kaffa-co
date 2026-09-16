@@ -274,7 +274,6 @@ const waitlistForm = document.getElementById("waitlistForm");
 if(waitlistForm){
   waitlistForm.addEventListener("submit", () => {
     showToast("¡Casi listo! Revisa tu correo para confirmar 🔥");
-    setTimeout(() => waitlistForm.reset(), 300);
   });
 }
 
@@ -310,7 +309,6 @@ document.querySelectorAll(".faq-q").forEach(btn => {
 const newsForm = document.getElementById("newsForm");
 newsForm.addEventListener("submit", () => {
   showToast("¡Casi listo! Confirma en tu correo para recibir el código 🎉");
-  setTimeout(() => newsForm.reset(), 300);
 });
 
 // ===== Reveal on scroll =====
