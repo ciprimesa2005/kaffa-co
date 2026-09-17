@@ -36,7 +36,7 @@ const DROPS = [
     images: [
       "assets/img/drop-bourbon-rosado-real.jpg",
       "assets/img/drop-bourbon-rosado.jpg",
-      "assets/img/mascot-hero.jpg"
+      "assets/img/drop-bourbon-rosado-lifestyle.jpg"
     ],
     labelStyle: true
   }
