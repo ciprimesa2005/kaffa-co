@@ -34,8 +34,8 @@ const DROPS = [
     img: "assets/img/drop-bourbon-rosado.jpg",
     fallbackImg: "assets/img/mascot-hero.jpg",
     images: [
-      "assets/img/drop-bourbon-rosado-real.jpg",
       "assets/img/drop-bourbon-rosado.jpg",
+      "assets/img/drop-bourbon-rosado-real.jpg",
       "assets/img/drop-bourbon-rosado-lifestyle.jpg"
     ],
     labelStyle: true
@@ -244,6 +244,8 @@ function openProductDetail(id){
 
   document.getElementById("detailMainImg").src = images[0];
   document.getElementById("detailMainImg").alt = p.name;
+  document.getElementById("detailMainMedia").classList.toggle("mystery-blur", !!p.comingSoon);
+  document.getElementById("detailMysteryTag").style.display = p.comingSoon ? "" : "none";
   document.getElementById("detailThumbs").innerHTML = images.map((src, i) => `
     <button class="detail-thumb${i === 0 ? " active" : ""}" onclick="setDetailImage('${id}', ${i}, this)">
       <img src="${src}" alt="${p.name} foto ${i+1}">
