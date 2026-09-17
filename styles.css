@@ -397,6 +397,15 @@ section{ padding:80px 0; position:relative; }
 .product-media img{ width:100%; height:100%; object-fit:cover; }
 .product-media.label-fit{ aspect-ratio:3/3.6; background:#151009; }
 .product-media.label-fit img{ object-fit:contain; padding:6px; }
+.product-media.mystery-blur img{ filter:blur(9px) brightness(.65) saturate(1.1); transform:scale(1.08); transition:filter .4s ease; }
+.product-media.mystery-blur:hover img{ filter:blur(6px) brightness(.75) saturate(1.1); }
+.mystery-tag{
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  background:var(--tinta); color:var(--crema); border:2px solid var(--gold);
+  padding:9px 18px; border-radius:50px; white-space:nowrap;
+  font-family:'Anton',sans-serif; font-size:.78rem; letter-spacing:1.5px; text-transform:uppercase;
+  z-index:2; box-shadow:0 6px 16px rgba(0,0,0,.4);
+}
 .product-media .mascot-float{
   position:absolute; bottom:-6px; right:-6px; width:78px;
   filter:drop-shadow(3px 3px 0 rgba(0,0,0,.25));

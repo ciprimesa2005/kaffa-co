@@ -172,8 +172,9 @@ function renderProducts(filter = "all"){
   const items = filter === "all" ? PRODUCTS : PRODUCTS.filter(p => p.kind === filter);
   grid.innerHTML = items.map(p => `
     <div class="product-card reveal in">
-      <div class="product-media${p.labelStyle ? " label-fit" : ""}">
+      <div class="product-media${p.labelStyle ? " label-fit" : ""}${p.comingSoon ? " mystery-blur" : ""}">
         <img src="${p.img}" alt="${p.name}">
+        ${p.comingSoon ? `<span class="mystery-tag">🔒 Muy pronto</span>` : ""}
         ${p.badge ? `<span class="badge ${p.badgeType}">${p.badge}</span>` : ""}
       </div>
       <div class="product-body">
