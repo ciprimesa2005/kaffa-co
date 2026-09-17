@@ -16,6 +16,34 @@ const PRODUCTS = [
     images: ["assets/img/castillo-label.jpg"],
     labelStyle: true,
     comingSoon: true
+  },
+  {
+    id: "taza-kaffa",
+    name: "Taza Kaffa",
+    kind: "merch",
+    kindLabel: "Merch · Taza de cerámica",
+    desc: "Taza de cerámica Kaffa & CO, ideal para tu ritual de café de todos los días. Pronto disponible.",
+    price: 35000,
+    badge: "MERCH",
+    badgeType: "gold",
+    img: "assets/img/mascot-mug.jpg",
+    images: ["assets/img/mascot-mug.jpg"],
+    labelStyle: false,
+    comingSoon: true
+  },
+  {
+    id: "kit-kaffa",
+    name: "Kit Kaffa",
+    kind: "merch",
+    kindLabel: "Merch · Kit de bienvenida",
+    desc: "El kit completo para vivir la actitud Kaffa & CO: café, taza y sorpresas de marca. Pronto disponible.",
+    price: 90000,
+    badge: "MERCH",
+    badgeType: "gold",
+    img: "assets/img/kit-kaffa-placeholder.jpg",
+    images: ["assets/img/kit-kaffa-placeholder.jpg"],
+    labelStyle: false,
+    comingSoon: true
   }
 ];
 
