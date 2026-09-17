@@ -13,6 +13,7 @@ const PRODUCTS = [
     badge: "EL CLÁSICO",
     badgeType: "",
     img: "assets/img/castillo-label.jpg",
+    images: ["assets/img/castillo-label.jpg"],
     labelStyle: true,
     comingSoon: true
   }
@@ -32,6 +33,11 @@ const DROPS = [
     soldOut: false,
     img: "assets/img/drop-bourbon-rosado.jpg",
     fallbackImg: "assets/img/mascot-hero.jpg",
+    images: [
+      "assets/img/drop-bourbon-rosado-real.jpg",
+      "assets/img/drop-bourbon-rosado.jpg",
+      "assets/img/mascot-hero.jpg"
+    ],
     labelStyle: true
   }
 ];
@@ -172,14 +178,14 @@ function renderProducts(filter = "all"){
   const items = filter === "all" ? PRODUCTS : PRODUCTS.filter(p => p.kind === filter);
   grid.innerHTML = items.map(p => `
     <div class="product-card reveal in">
-      <div class="product-media${p.labelStyle ? " label-fit" : ""}${p.comingSoon ? " mystery-blur" : ""}">
+      <div class="product-media${p.labelStyle ? " label-fit" : ""}${p.comingSoon ? " mystery-blur" : ""}" onclick="openProductDetail('${p.id}')">
         <img src="${p.img}" alt="${p.name}">
         ${p.comingSoon ? `<span class="mystery-tag">🔒 Muy pronto</span>` : ""}
         ${p.badge ? `<span class="badge ${p.badgeType}">${p.badge}</span>` : ""}
       </div>
       <div class="product-body">
         <span class="kind">${p.kindLabel}</span>
-        <h3>${p.name}</h3>
+        <h3 onclick="openProductDetail('${p.id}')">${p.name}</h3>
         <div class="stars">★★★★★</div>
         <p>${p.desc}</p>
         <div class="price-row">
@@ -202,13 +208,13 @@ function renderDrops(){
     const fallback = p.fallbackImg ? ` onerror="this.onerror=null;this.src='${p.fallbackImg}';this.classList.add('is-fallback');"` : "";
     return `
     <div class="drop-card drop-card-feature reveal in">
-      <div class="product-media${p.labelStyle ? " label-fit" : ""}">
+      <div class="product-media${p.labelStyle ? " label-fit" : ""}" onclick="openProductDetail('${p.id}')">
         <img src="${p.img}" alt="${p.name}"${fallback}>
         <span class="edition-tag">${p.edition}</span>
       </div>
       <div class="drop-body">
         <span class="kind">${p.kindLabel}</span>
-        <h3>${p.name}</h3>
+        <h3 onclick="openProductDetail('${p.id}')">${p.name}</h3>
         <p>${p.desc}</p>
         <div class="stock-row">
           <span>${p.soldOut ? "Agotado" : "Disponibles"}</span>
@@ -225,6 +231,63 @@ function renderDrops(){
     </div>`;
   }).join("");
 }
+
+// ===== Product detail modal =====
+const detailModal = document.getElementById("productDetail");
+const detailOverlay = document.getElementById("detailOverlay");
+
+function openProductDetail(id){
+  const p = findItem(id);
+  if(!p) return;
+  const images = p.images && p.images.length ? p.images : [p.img];
+  const isDrop = DROPS.some(d => d.id === id);
+
+  document.getElementById("detailMainImg").src = images[0];
+  document.getElementById("detailMainImg").alt = p.name;
+  document.getElementById("detailThumbs").innerHTML = images.map((src, i) => `
+    <button class="detail-thumb${i === 0 ? " active" : ""}" onclick="setDetailImage('${id}', ${i}, this)">
+      <img src="${src}" alt="${p.name} foto ${i+1}">
+    </button>
+  `).join("");
+  document.getElementById("detailThumbs").style.display = images.length > 1 ? "flex" : "none";
+
+  document.getElementById("detailKind").textContent = p.kindLabel;
+  document.getElementById("detailName").textContent = p.name;
+  document.getElementById("detailDesc").textContent = p.desc;
+  document.getElementById("detailPrice").innerHTML = p.oldPrice
+    ? `<span class="old">${money(p.oldPrice)}</span>${money(p.price)}`
+    : money(p.price);
+
+  const cta = document.getElementById("detailCta");
+  if(p.comingSoon){
+    cta.outerHTML = `<button class="add-btn coming-soon" id="detailCta" disabled>Coming Soon</button>`;
+  } else if(p.soldOut){
+    cta.outerHTML = `<button class="add-btn coming-soon" id="detailCta" disabled>Agotado</button>`;
+  } else if(isDrop){
+    cta.outerHTML = `<button class="add-btn" id="detailCta" onclick="addToCart('${id}'); closeProductDetail();">Reservar +</button>`;
+  } else {
+    cta.outerHTML = `<button class="add-btn" id="detailCta" onclick="addToCart('${id}'); closeProductDetail();">Añadir al carrito +</button>`;
+  }
+
+  detailModal.classList.add("show");
+  detailOverlay.classList.add("show");
+}
+
+function setDetailImage(id, index, btn){
+  const p = findItem(id);
+  if(!p) return;
+  const images = p.images && p.images.length ? p.images : [p.img];
+  document.getElementById("detailMainImg").src = images[index];
+  document.querySelectorAll(".detail-thumb").forEach(t => t.classList.remove("active"));
+  btn.classList.add("active");
+}
+
+function closeProductDetail(){
+  detailModal.classList.remove("show");
+  detailOverlay.classList.remove("show");
+}
+document.getElementById("closeDetail").addEventListener("click", closeProductDetail);
+detailOverlay.addEventListener("click", closeProductDetail);
 
 // ===== Drop countdown (targets next Sunday 20:00 as example live-drop end) =====
 const DROP_COUNTDOWN_HOURS = 38;
