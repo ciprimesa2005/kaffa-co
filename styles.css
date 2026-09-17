@@ -639,7 +639,8 @@ footer{ background:var(--tinta); color:var(--crema-2); padding:64px 0 24px; }
   .menu-toggle{ display:block; }
 }
 @media (max-width: 600px){
-  section{ padding:56px 0; }
+  .container{ padding:0 18px; }
+  section{ padding:48px 0; }
   .product-grid{ grid-template-columns:1fr; }
   .drop-grid{ grid-template-columns:1fr; }
   .why-grid{ grid-template-columns:1fr; }
@@ -648,4 +649,45 @@ footer{ background:var(--tinta); color:var(--crema-2); padding:64px 0 24px; }
   .urgency .container{ flex-direction:column; text-align:center; }
   .sticky-cta{ display:flex; }
   body{ padding-bottom:70px; }
+
+  /* Header: less cramped on small phones */
+  .nav{ padding:10px 18px; }
+  .brand-logo{ height:46px; }
+  .brand-name{ font-size:1.15rem; }
+  .icon-btn{ padding:9px 14px; font-size:.75rem; }
+
+  /* Hero: shorten the fold so the CTA is reachable sooner */
+  .hero-grid{ padding:28px 18px 32px; gap:8px; }
+  .hero-visual img{ max-width:230px; }
+  .hero-badge{ width:90px; height:90px; font-size:.68rem; top:2%; right:2%; }
+  .hero p.lead{ font-size:1.05rem; }
+  .hero-ctas .btn{ width:100%; justify-content:center; padding:15px 20px; }
+  .hero-stats{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:10px;
+    width:100%; margin-top:24px;
+  }
+  .hero-stats div{ text-align:center; }
+  .hero-stats strong{ font-size:1.4rem; }
+  .hero-stats span{ font-size:.68rem; letter-spacing:.5px; }
+
+  /* Comfortable tap targets */
+  .add-btn, .drop-add, .btn{ min-height:46px; }
+  .qty-btn{ width:32px; height:32px; }
+  .faq-q{ padding:16px 18px; }
+  .cart-close{ padding:6px; }
+
+  /* Tighter type on very small screens */
+  .product-body h3{ font-size:1.3rem; }
+  .drop-body h3{ font-size:1.25rem; }
+  .section-head{ margin-bottom:32px; }
+
+  /* Cart drawer full-width WhatsApp buttons stack instead of squeezing */
+  .whatsapp-choice-row{ flex-direction:column; }
+}
+
+@media (max-width: 380px){
+  .hero-visual img{ max-width:190px; }
+  .drop-timer{ gap:6px; }
+  .timer div, .drop-timer div{ min-width:54px; padding:8px 6px; }
+  .hero-stats strong{ font-size:1.2rem; }
 }
