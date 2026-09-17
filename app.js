@@ -24,6 +24,7 @@ const PRODUCTS = [
     kindLabel: "Merch · Taza de cerámica",
     desc: "Taza de cerámica Kaffa & CO, ideal para tu ritual de café de todos los días. Pronto disponible.",
     price: 35000,
+    hidePrice: true,
     badge: "MERCH",
     badgeType: "gold",
     img: "assets/img/mascot-mug.jpg",
@@ -38,6 +39,7 @@ const PRODUCTS = [
     kindLabel: "Merch · Kit de bienvenida",
     desc: "El kit completo para vivir la actitud Kaffa & CO: café, taza y sorpresas de marca. Pronto disponible.",
     price: 90000,
+    hidePrice: true,
     badge: "MERCH",
     badgeType: "gold",
     img: "assets/img/kit-kaffa-placeholder.jpg",
@@ -216,9 +218,10 @@ function renderProducts(filter = "all"){
         <h3 onclick="openProductDetail('${p.id}')">${p.name}</h3>
         <div class="stars">★★★★★</div>
         <p>${p.desc}</p>
+        ${p.hidePrice ? "" : `
         <div class="price-row">
           <span class="price">${p.oldPrice ? `<span class="old">${money(p.oldPrice)}</span>` : ""}${money(p.price)}</span>
-        </div>
+        </div>`}
         ${p.comingSoon
           ? `<button class="add-btn coming-soon" disabled>Coming Soon</button>`
           : `<button class="add-btn" onclick="addToCart('${p.id}')">Añadir al carrito +</button>`}
@@ -284,6 +287,7 @@ function openProductDetail(id){
   document.getElementById("detailKind").textContent = p.kindLabel;
   document.getElementById("detailName").textContent = p.name;
   document.getElementById("detailDesc").textContent = p.desc;
+  document.getElementById("detailPrice").closest(".price-row").style.display = p.hidePrice ? "none" : "";
   document.getElementById("detailPrice").innerHTML = p.oldPrice
     ? `<span class="old">${money(p.oldPrice)}</span>${money(p.price)}`
     : money(p.price);
