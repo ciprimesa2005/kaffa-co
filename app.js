@@ -323,22 +323,11 @@ function closeProductDetail(){
 document.getElementById("closeDetail").addEventListener("click", closeProductDetail);
 detailOverlay.addEventListener("click", closeProductDetail);
 
-// ===== Drop countdown (targets next Sunday 20:00 as example live-drop end) =====
-const DROP_COUNTDOWN_HOURS = 2;
-const DROP_COUNTDOWN_KEY = "dropCountdownEnd_v2";
-function getDropCountdownEnd(){
-  const stored = localStorage.getItem(DROP_COUNTDOWN_KEY);
-  if(stored){
-    return new Date(parseInt(stored, 10));
-  }
-  const end = new Date(Date.now() + DROP_COUNTDOWN_HOURS * 3600000);
-  localStorage.setItem(DROP_COUNTDOWN_KEY, end.getTime());
-  return end;
-}
+// ===== Drop countdown — same fixed end time for every visitor/device =====
+const DROP_COUNTDOWN_END = new Date("2026-09-23T00:40:38.000Z");
 function tickDropTimer(){
   const now = new Date();
-  const end = getDropCountdownEnd();
-  const diff = Math.max(0, end - now);
+  const diff = Math.max(0, DROP_COUNTDOWN_END - now);
   const h = Math.floor(diff/3600000);
   const m = Math.floor((diff%3600000)/60000);
   const s = Math.floor((diff%60000)/1000);
