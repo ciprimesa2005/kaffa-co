@@ -324,12 +324,11 @@ document.getElementById("closeDetail").addEventListener("click", closeProductDet
 detailOverlay.addEventListener("click", closeProductDetail);
 
 // ===== Drop countdown (targets next Sunday 20:00 as example live-drop end) =====
-const DROP_COUNTDOWN_HOURS = 38;
+const DROP_COUNTDOWN_HOURS = 2;
 function getDropCountdownEnd(){
   const stored = localStorage.getItem("dropCountdownEnd");
   if(stored){
-    const end = new Date(parseInt(stored, 10));
-    if(end > new Date()) return end;
+    return new Date(parseInt(stored, 10));
   }
   const end = new Date(Date.now() + DROP_COUNTDOWN_HOURS * 3600000);
   localStorage.setItem("dropCountdownEnd", end.getTime());
@@ -338,7 +337,7 @@ function getDropCountdownEnd(){
 function tickDropTimer(){
   const now = new Date();
   const end = getDropCountdownEnd();
-  const diff = end - now;
+  const diff = Math.max(0, end - now);
   const h = Math.floor(diff/3600000);
   const m = Math.floor((diff%3600000)/60000);
   const s = Math.floor((diff%60000)/1000);
