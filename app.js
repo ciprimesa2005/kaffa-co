@@ -325,13 +325,14 @@ detailOverlay.addEventListener("click", closeProductDetail);
 
 // ===== Drop countdown (targets next Sunday 20:00 as example live-drop end) =====
 const DROP_COUNTDOWN_HOURS = 2;
+const DROP_COUNTDOWN_KEY = "dropCountdownEnd_v2";
 function getDropCountdownEnd(){
-  const stored = localStorage.getItem("dropCountdownEnd");
+  const stored = localStorage.getItem(DROP_COUNTDOWN_KEY);
   if(stored){
     return new Date(parseInt(stored, 10));
   }
   const end = new Date(Date.now() + DROP_COUNTDOWN_HOURS * 3600000);
-  localStorage.setItem("dropCountdownEnd", end.getTime());
+  localStorage.setItem(DROP_COUNTDOWN_KEY, end.getTime());
   return end;
 }
 function tickDropTimer(){
