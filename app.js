@@ -65,7 +65,7 @@ const DROPS = [
     fallbackImg: "assets/img/mascot-hero.jpg",
     images: [
       "assets/img/drop-bourbon-rosado.jpg",
-      "assets/img/drop-bourbon-rosado-real.jpg",
+      "assets/img/drop-bourbon-rosado-bag.jpg",
       "assets/img/drop-bourbon-rosado-lifestyle.jpg"
     ],
     labelStyle: true
