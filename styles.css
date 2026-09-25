@@ -11,9 +11,9 @@
   --line: #201a12;
   --gold: #4d5f26;
   --gold-text: #8caa4a;
-  --rosado: #f2977f;
-  --rosado-dark: #e17a60;
-  --rosado-deep: #c65f47;
+  --rosado: #db8da0;
+  --rosado-dark: #c87489;
+  --rosado-deep: #a95a6e;
 
   --radius: 18px;
   --radius-sm: 10px;
@@ -301,7 +301,7 @@ section{ padding:80px 0; position:relative; }
 }
 @keyframes pulse-live{ 0%,100%{ opacity:1; } 50%{ opacity:.4; } }
 .drop-banner-copy h3{ font-size:1.7rem; color:var(--tinta); margin-bottom:8px; }
-.drop-banner-copy p{ color:#5c3226; max-width:520px; margin:0; font-size:1rem; }
+.drop-banner-copy p{ color:#4a2231; max-width:520px; margin:0; font-size:1rem; }
 .drop-timer div{ background:var(--tinta); color:var(--gold-text); }
 
 .drop-grid{ display:grid; grid-template-columns:1fr; gap:26px; margin-bottom:50px; max-width:920px; margin-left:auto; margin-right:auto; }
