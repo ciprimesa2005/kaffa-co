@@ -58,7 +58,7 @@ const DROPS = [
     kindLabel: "Grano Entero · 250g numerado",
     desc: "Origen Villa Restrepo, Tolima · 1.750 msnm. Variedad Bourbon Rosado, proceso semi-lavado, tueste medio. Notas a frutos rojos, almendra y melón, acidez media. Nuestro drop de lanzamiento — no se repite.",
     price: 60000,
-    stock: 22,
+    stock: 15,
     stockTotal: 50,
     soldOut: false,
     img: "assets/img/drop-bourbon-rosado.jpg",
