@@ -198,6 +198,8 @@ header.site{
 .hero-visual{ position:relative; z-index:2; display:flex; justify-content:center; }
 .hero-visual img{
   max-width:380px;
+  border-radius:22px;
+  border:3px solid var(--tinta);
   filter:drop-shadow(10px 14px 0 rgba(0,0,0,.25));
   animation: float 5s ease-in-out infinite;
 }
