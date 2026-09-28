@@ -61,12 +61,12 @@ const DROPS = [
     stock: 15,
     stockTotal: 50,
     soldOut: false,
-    img: "assets/img/drop-sakura-cover.jpg",
+    img: "assets/img/drop-bourbon-rosado.jpg",
     mediaBg: "#da8c9f",
     fallbackImg: "assets/img/mascot-hero.jpg",
     images: [
-      "assets/img/drop-sakura-cover.jpg",
       "assets/img/drop-bourbon-rosado.jpg",
+      "assets/img/drop-sakura-cover.jpg",
       "assets/img/drop-bourbon-rosado-bag.jpg",
       "assets/img/drop-bourbon-rosado-lifestyle.jpg"
     ],
