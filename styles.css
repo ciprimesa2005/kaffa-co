@@ -740,14 +740,33 @@ footer{ background:var(--tinta); color:var(--crema-2); padding:64px 0 24px; }
   .hero-stats strong{ font-size:1.2rem; }
 }
 
-/* ==== Sold-out X over the drop image ==== */
-.product-media.sold-out img{ filter:grayscale(.35) brightness(.7); }
-.product-media.sold-out::before,
-.product-media.sold-out::after{
-  content:""; position:absolute; left:50%; top:50%; z-index:2;
-  width:150%; height:10px; background:var(--tinta);
-  box-shadow:0 0 0 3px var(--crema);
-  border-radius:6px; pointer-events:none;
+/* ==== Sold-out stamp over the drop image ==== */
+.product-media.sold-out img{ filter:grayscale(.5) brightness(.55) blur(1px); transform:scale(1.04); }
+.product-media.sold-out::before{
+  content:"SOLD OUT"; position:absolute; left:50%; top:50%; z-index:3;
+  transform:translate(-50%,-50%) rotate(-12deg);
+  padding:14px 26px 10px; white-space:nowrap;
+  font-family:'Anton',sans-serif; font-size:clamp(2rem,6.5vw,3.4rem); letter-spacing:4px; line-height:1;
+  color:var(--rojo); background:var(--crema);
+  border:5px solid var(--rojo); border-radius:10px;
+  outline:3px solid var(--crema); outline-offset:-12px;
+  box-shadow:6px 6px 0 var(--tinta);
+  animation:stamp-in .6s cubic-bezier(.2,1.4,.4,1) both;
+  pointer-events:none;
 }
-.product-media.sold-out::before{ transform:translate(-50%,-50%) rotate(52deg); }
-.product-media.sold-out::after{ transform:translate(-50%,-50%) rotate(-52deg); }
+.product-media.sold-out::after{
+  content:"DROP 001 · 50 / 50 UNIDADES"; position:absolute; left:50%; top:calc(50% + 46px); z-index:3;
+  transform:translate(-50%,0) rotate(-12deg);
+  padding:5px 14px; white-space:nowrap;
+  font-family:'Anton',sans-serif; font-size:.72rem; letter-spacing:2px;
+  color:var(--crema); background:var(--tinta); border-radius:4px;
+  pointer-events:none;
+}
+@keyframes stamp-in{
+  from{ transform:translate(-50%,-50%) rotate(-12deg) scale(2.4); opacity:0; }
+  to{ transform:translate(-50%,-50%) rotate(-12deg) scale(1); opacity:1; }
+}
+@media (max-width:600px){
+  .product-media.sold-out::before{ padding:10px 16px 7px; border-width:4px; }
+  .product-media.sold-out::after{ top:calc(50% + 34px); font-size:.62rem; }
+}
