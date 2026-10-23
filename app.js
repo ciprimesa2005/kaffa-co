@@ -60,7 +60,7 @@ const DROPS = [
     price: 60000,
     stock: 15,
     stockTotal: 50,
-    soldOut: false,
+    soldOut: true,
     img: "assets/img/drop-bourbon-rosado.jpg",
     mediaBg: "#da8c9f",
     fallbackImg: "assets/img/mascot-hero.jpg",
@@ -250,14 +250,14 @@ function renderDrops(){
         <h3 onclick="openProductDetail('${p.id}')">${p.name}</h3>
         <p>${p.desc}</p>
         <div class="stock-row">
-          <span>${p.soldOut ? "Agotado" : "Disponibles"}</span>
+          <span>${p.soldOut ? "Sold Out" : "Disponibles"}</span>
           <strong>${p.soldOut ? "0" : p.stock} / ${p.stockTotal}</strong>
         </div>
         <div class="stock-bar"><div class="stock-bar-fill ${low ? "low" : ""}" style="width:${p.soldOut ? 0 : pct}%"></div></div>
         <div class="drop-price-row">
           <span class="drop-price">${money(p.price)}</span>
           <button class="drop-add ${p.soldOut ? "soldout" : ""}" ${p.soldOut ? "disabled" : ""} onclick="addToCart('${p.id}')">
-            ${p.soldOut ? "Agotado" : "Reservar +"}
+            ${p.soldOut ? "Sold Out" : "Reservar +"}
           </button>
         </div>
       </div>
@@ -298,7 +298,7 @@ function openProductDetail(id){
   if(p.comingSoon){
     cta.outerHTML = `<button class="add-btn coming-soon" id="detailCta" disabled>Coming Soon</button>`;
   } else if(p.soldOut){
-    cta.outerHTML = `<button class="add-btn coming-soon" id="detailCta" disabled>Agotado</button>`;
+    cta.outerHTML = `<button class="add-btn coming-soon" id="detailCta" disabled>Sold Out</button>`;
   } else if(isDrop){
     cta.outerHTML = `<button class="add-btn" id="detailCta" onclick="addToCart('${id}'); closeProductDetail();">Reservar +</button>`;
   } else {

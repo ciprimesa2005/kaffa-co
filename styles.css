@@ -301,6 +301,7 @@ section{ padding:80px 0; position:relative; }
   margin-bottom:8px;
   animation: pulse-live 1.6s ease-in-out infinite;
 }
+.drop-live.soldout{ animation:none; }
 @keyframes pulse-live{ 0%,100%{ opacity:1; } 50%{ opacity:.4; } }
 .drop-banner-copy h3{ font-size:1.7rem; color:var(--tinta); margin-bottom:8px; }
 .drop-banner-copy p{ color:#4a2231; max-width:520px; margin:0; font-size:1rem; }
