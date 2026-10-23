@@ -241,7 +241,7 @@ function renderDrops(){
     const fallback = p.fallbackImg ? ` onerror="this.onerror=null;this.src='${p.fallbackImg}';this.classList.add('is-fallback');"` : "";
     return `
     <div class="drop-card drop-card-feature reveal in">
-      <div class="product-media${p.labelStyle ? " label-fit" : ""}"${p.mediaBg ? ` style="background:${p.mediaBg}"` : ""} onclick="openProductDetail('${p.id}')">
+      <div class="product-media${p.labelStyle ? " label-fit" : ""}${p.soldOut ? " sold-out" : ""}"${p.mediaBg ? ` style="background:${p.mediaBg}"` : ""} onclick="openProductDetail('${p.id}')">
         <img src="${p.img}" alt="${p.name}"${fallback}>
         <span class="edition-tag">${p.edition}</span>
       </div>

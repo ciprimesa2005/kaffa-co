@@ -739,3 +739,15 @@ footer{ background:var(--tinta); color:var(--crema-2); padding:64px 0 24px; }
   .timer div, .drop-timer div{ min-width:54px; padding:8px 6px; }
   .hero-stats strong{ font-size:1.2rem; }
 }
+
+/* ==== Sold-out X over the drop image ==== */
+.product-media.sold-out img{ filter:grayscale(.35) brightness(.7); }
+.product-media.sold-out::before,
+.product-media.sold-out::after{
+  content:""; position:absolute; left:50%; top:50%; z-index:2;
+  width:150%; height:10px; background:var(--tinta);
+  box-shadow:0 0 0 3px var(--crema);
+  border-radius:6px; pointer-events:none;
+}
+.product-media.sold-out::before{ transform:translate(-50%,-50%) rotate(52deg); }
+.product-media.sold-out::after{ transform:translate(-50%,-50%) rotate(-52deg); }
