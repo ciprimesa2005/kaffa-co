@@ -9,7 +9,6 @@ const PRODUCTS = [
     kindLabel: "Grano Entero · 340g",
     desc: "Origen Valparaíso, Antioquia · 1.850 msnm. Variedad Castillo, proceso semi-lavado, tueste medio. Notas a caramelo, chocolate y panela, acidez media. El clásico que nunca falta.",
     price: 45000,
-    oldPrice: 48000,
     badge: "EL CLÁSICO",
     badgeType: "",
     img: "assets/img/castillo-label-v2.jpg",
