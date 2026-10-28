@@ -80,9 +80,9 @@ const DROPS = [
     price: 0,
     hidePrice: true,
     comingSoon: true,
-    img: "assets/img/drop-rubi-cover.jpg",
-    mediaBg: "#720028",
-    images: ["assets/img/drop-rubi-cover.jpg"],
+    img: "assets/img/drop-rubi-poster.jpg",
+    mediaBg: "#561720",
+    images: ["assets/img/drop-rubi-poster.jpg"],
     labelStyle: true
   }
 ];
