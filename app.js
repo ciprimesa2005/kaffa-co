@@ -12,8 +12,8 @@ const PRODUCTS = [
     oldPrice: 48000,
     badge: "EL CLÁSICO",
     badgeType: "",
-    img: "assets/img/castillo-label.jpg",
-    images: ["assets/img/castillo-label.jpg"],
+    img: "assets/img/castillo-label-v2.jpg",
+    images: ["assets/img/castillo-label-v2.jpg"],
     labelStyle: true,
     comingSoon: true
   },
