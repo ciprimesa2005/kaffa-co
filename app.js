@@ -7,7 +7,7 @@ const PRODUCTS = [
     name: "Origen Castillo",
     kind: "grano",
     kindLabel: "Grano Entero · 340g",
-    desc: "Origen Valparaíso, Antioquia · 1.700 msnm. Variedad Castillo, proceso semi-lavado, tueste medio. Notas a caramelo, chocolate y panela, acidez media. El clásico que nunca falta.",
+    desc: "Origen Valparaíso, Antioquia · 1.850 msnm. Variedad Castillo, proceso semi-lavado, tueste medio. Notas a caramelo, chocolate y panela, acidez media. El clásico que nunca falta.",
     price: 45000,
     oldPrice: 48000,
     badge: "EL CLÁSICO",
