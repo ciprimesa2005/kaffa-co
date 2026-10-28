@@ -70,6 +70,20 @@ const DROPS = [
       "assets/img/drop-bourbon-rosado-lifestyle.jpg"
     ],
     labelStyle: true
+  },
+  {
+    id: "drop02-rubi",
+    name: "Rubí",
+    edition: "DROP 002",
+    kindLabel: "Castillo Orgánico · Proceso Natural",
+    desc: "Castillo orgánico en proceso natural, secado dentro de la cereza. Rojo de cereza, sabor de joya. Después del rosa, el rojo.",
+    price: 0,
+    hidePrice: true,
+    comingSoon: true,
+    img: "assets/img/drop-rubi-cover.jpg",
+    mediaBg: "#720028",
+    images: ["assets/img/drop-rubi-cover.jpg"],
+    labelStyle: true
   }
 ];
 
@@ -235,19 +249,24 @@ function renderProducts(filter = "all"){
 function renderDrops(){
   const grid = document.getElementById("dropGrid");
   grid.innerHTML = DROPS.map(p => {
-    const pct = Math.max(0, Math.min(100, (p.stock / p.stockTotal) * 100));
+    const pct = p.stockTotal ? Math.max(0, Math.min(100, (p.stock / p.stockTotal) * 100)) : 0;
     const low = pct <= 20 && !p.soldOut;
     const fallback = p.fallbackImg ? ` onerror="this.onerror=null;this.src='${p.fallbackImg}';this.classList.add('is-fallback');"` : "";
     return `
     <div class="drop-card drop-card-feature reveal in">
-      <div class="product-media${p.labelStyle ? " label-fit" : ""}${p.soldOut ? " sold-out" : ""}"${p.mediaBg ? ` style="background:${p.mediaBg}"` : ""} onclick="openProductDetail('${p.id}')">
+      <div class="product-media${p.labelStyle ? " label-fit" : ""}${p.soldOut ? " sold-out" : ""}${p.comingSoon ? " mystery-blur" : ""}"${p.mediaBg ? ` style="background:${p.mediaBg}"` : ""} onclick="openProductDetail('${p.id}')">
         <img src="${p.img}" alt="${p.name}"${fallback}>
+        ${p.comingSoon ? `<span class="mystery-tag">🔒 Próximamente</span>` : ""}
         <span class="edition-tag">${p.edition}</span>
       </div>
       <div class="drop-body">
         <span class="kind">${p.kindLabel}</span>
         <h3 onclick="openProductDetail('${p.id}')">${p.name}</h3>
         <p>${p.desc}</p>
+        ${p.comingSoon ? `
+        <div class="drop-price-row">
+          <button class="drop-add soldout" disabled>Coming Soon</button>
+        </div>` : `
         <div class="stock-row">
           <span>${p.soldOut ? "Sold Out" : "Disponibles"}</span>
           <strong>${p.soldOut ? "0" : p.stock} / ${p.stockTotal}</strong>
@@ -259,6 +278,7 @@ function renderDrops(){
             ${p.soldOut ? "Sold Out" : "Reservar +"}
           </button>
         </div>
+`}
       </div>
     </div>`;
   }).join("");
