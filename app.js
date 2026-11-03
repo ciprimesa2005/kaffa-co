@@ -27,7 +27,8 @@ const PRODUCTS = [
     badgeType: "gold",
     img: "assets/img/kit-kaffa-placeholder.jpg",
     images: ["assets/img/kit-kaffa-placeholder.jpg"],
-    labelStyle: false
+    labelStyle: false,
+    comingSoon: true
   },
   {
     id: "taza-kaffa",
