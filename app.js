@@ -89,7 +89,7 @@ const DROPS = [
     id: "drop02-rubi",
     name: "Rubí",
     edition: "DROP 002",
-    kindLabel: "Castillo Orgánico · 250g numerado",
+    kindLabel: "Grano o Molido · 250g numerado",
     desc: "Origen Villa Restrepo, Tolima · 1.750 msnm. Variedad Castillo orgánico, proceso natural, tueste medio. Notas a frutos amarillos y chocolate, acidez media. Nuestro segundo drop — 50 unidades numeradas, no se repite.",
     price: 0,
     hidePrice: true,
