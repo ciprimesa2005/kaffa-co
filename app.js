@@ -17,6 +17,19 @@ const PRODUCTS = [
     comingSoon: true
   },
   {
+    id: "drip-bags-x4",
+    name: "Drip Bags x 4",
+    kind: "drip",
+    kindLabel: "Drip Bags · Pack x 4",
+    desc: "Café Kaffa & CO en bolsitas individuales de goteo. Solo agrega agua caliente y disfruta donde estés. Pack de 4 unidades.",
+    price: 20000,
+    badge: "NUEVO",
+    badgeType: "gold",
+    img: "assets/img/kit-kaffa-placeholder.jpg",
+    images: ["assets/img/kit-kaffa-placeholder.jpg"],
+    labelStyle: false
+  },
+  {
     id: "taza-kaffa",
     name: "Taza Kaffa",
     kind: "merch",
