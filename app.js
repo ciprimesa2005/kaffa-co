@@ -283,9 +283,9 @@ function renderDrops(){
         </div>` : `
         <div class="stock-row">
           <span>${p.soldOut ? "Sold Out" : "Disponibles"}</span>
-          <strong>${p.soldOut ? "0" : p.stock} / ${p.stockTotal}</strong>
+          <strong>${p.soldOut ? p.stockTotal : p.stock} / ${p.stockTotal}</strong>
         </div>
-        <div class="stock-bar"><div class="stock-bar-fill ${low ? "low" : ""}" style="width:${p.soldOut ? 0 : pct}%"></div></div>
+        <div class="stock-bar"><div class="stock-bar-fill ${low || p.soldOut ? "low" : ""}" style="width:${p.soldOut ? 100 : pct}%"></div></div>
         <div class="drop-price-row">
           <span class="drop-price">${money(p.price)}</span>
           <button class="drop-add ${p.soldOut ? "soldout" : ""}" ${p.soldOut ? "disabled" : ""} onclick="addToCart('${p.id}')">
