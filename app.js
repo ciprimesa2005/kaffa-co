@@ -4,7 +4,7 @@ const WHATSAPP_NUMBERS = ["573024645777", "573165795612"];
 const PRODUCTS = [
   {
     id: "castillo-entero",
-    name: "Origen Castillo",
+    name: "Kaffa & CO Tradicional",
     kind: "grano",
     kindLabel: "Grano Entero o Molido · 340g",
     desc: "Origen Valparaíso, Antioquia · 1.850 msnm. Variedad Castillo, proceso semi-lavado, tueste medio. Notas a caramelo, chocolate y panela, acidez media. El tradicional que nunca falta.",
