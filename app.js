@@ -90,7 +90,7 @@ const DROPS = [
     name: "Rubí",
     edition: "DROP 002",
     kindLabel: "Castillo Orgánico · Proceso Natural",
-    desc: "Castillo orgánico en proceso natural, secado dentro de la cereza. Rojo de cereza, sabor de joya. Después del rosa, el rojo.",
+    desc: "Origen Villa Restrepo, Tolima · 1.750 msnm. Variedad Castillo orgánico, proceso natural. Notas a frutos amarillos y chocolate, acidez media. Nuestro segundo drop — 50 unidades numeradas, no se repite.",
     price: 0,
     hidePrice: true,
     comingSoon: true,
