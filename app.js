@@ -11,9 +11,9 @@ const PRODUCTS = [
     price: 45000,
     badge: "EL TRADICIONAL",
     badgeType: "",
-    img: "assets/img/castillo-etiqueta.jpg",
+    img: "assets/img/castillo-etiqueta-v2.jpg",
     images: [
-      "assets/img/castillo-etiqueta.jpg",
+      "assets/img/castillo-etiqueta-v2.jpg",
       "assets/img/castillo-bag.jpg",
       "assets/img/castillo-finca.jpg"
     ],
