@@ -11,12 +11,13 @@ const PRODUCTS = [
     price: 45000,
     badge: "EL TRADICIONAL",
     badgeType: "",
-    img: "assets/img/castillo-bag.jpg",
+    img: "assets/img/castillo-etiqueta.jpg",
     images: [
+      "assets/img/castillo-etiqueta.jpg",
       "assets/img/castillo-bag.jpg",
-      "assets/img/castillo-label-v2.jpg",
       "assets/img/castillo-finca.jpg"
     ],
+    mediaClass: "wide-fit",
     labelStyle: false
   },
   {
@@ -240,7 +241,7 @@ function renderProducts(filter = "all"){
   const items = filter === "all" ? PRODUCTS : PRODUCTS.filter(p => p.kind === filter);
   grid.innerHTML = items.map(p => `
     <div class="product-card reveal in">
-      <div class="product-media${p.labelStyle ? " label-fit" : ""}${p.comingSoon ? " mystery-blur" : ""}" onclick="openProductDetail('${p.id}')">
+      <div class="product-media${p.labelStyle ? " label-fit" : ""}${p.mediaClass ? " " + p.mediaClass : ""}${p.comingSoon ? " mystery-blur" : ""}" onclick="openProductDetail('${p.id}')">
         <img src="${p.img}" alt="${p.name}">
         ${p.comingSoon ? `<span class="mystery-tag">🔒 Muy pronto</span>` : ""}
         ${p.badge ? `<span class="badge ${p.badgeType}">${p.badge}</span>` : ""}

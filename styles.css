@@ -807,3 +807,7 @@ footer{ background:var(--tinta); color:var(--crema-2); padding:64px 0 24px; }
 @media (max-width:600px){ .hero-missed{ font-size:.78rem; padding:9px 14px; } }
 
 .detail-thumbs.mystery-blur .detail-thumb img{ filter:blur(4px) brightness(.65); transform:scale(1.15); }
+
+.product-media.wide-fit{ aspect-ratio:1.6/1; background:#fff; }
+.product-media.wide-fit img{ object-fit:contain; }
+.product-media.wide-fit .badge{ top:auto; bottom:10px; left:10px; }
