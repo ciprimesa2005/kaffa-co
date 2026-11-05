@@ -845,19 +845,20 @@ footer{ background:var(--tinta); color:var(--crema-2); padding:64px 0 24px; }
 
 /* Mascot buddy */
 .buddy{
-  position:fixed; left:14px; bottom:18px; z-index:85;
-  width:58px; height:58px; pointer-events:none;
+  position:fixed; left:12px; bottom:14px; z-index:85;
+  width:92px; pointer-events:none;
 }
 .buddy img{
-  width:100%; height:100%; border-radius:50%; object-fit:cover;
-  border:3px solid var(--tinta); box-shadow:0 6px 14px rgba(0,0,0,.35);
-  background:var(--rojo); animation:buddy-bob 3.2s ease-in-out infinite;
+  width:100%; height:auto; display:block;
+  filter:drop-shadow(0 5px 6px rgba(0,0,0,.4));
+  transform-origin:50% 100%;
+  animation:buddy-bob 3.2s ease-in-out infinite;
 }
-.buddy.talk img{ animation:buddy-wiggle .6s ease-in-out 2; }
-@keyframes buddy-bob{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
-@keyframes buddy-wiggle{ 0%,100%{transform:rotate(0)} 25%{transform:rotate(-12deg) scale(1.08)} 75%{transform:rotate(12deg) scale(1.08)} }
+.buddy.talk img{ animation:buddy-hop .7s ease-out 1, buddy-bob 3.2s ease-in-out .7s infinite; }
+@keyframes buddy-bob{ 0%,100%{transform:translateY(0) rotate(-1deg)} 50%{transform:translateY(-5px) rotate(1.5deg)} }
+@keyframes buddy-hop{ 0%{transform:translateY(0) scale(1,1)} 30%{transform:translateY(-22px) scale(.95,1.06)} 55%{transform:translateY(0) scale(1.08,.92)} 100%{transform:translateY(0) scale(1,1)} }
 .buddy-bubble{
-  position:absolute; left:68px; bottom:14px; width:max-content; max-width:min(230px, calc(100vw - 110px));
+  position:absolute; left:86px; bottom:46px; width:max-content; max-width:min(230px, calc(100vw - 130px));
   background:var(--crema); color:var(--tinta); border:3px solid var(--tinta); border-radius:14px 14px 14px 4px;
   padding:9px 13px; font-family:'Anton',sans-serif; font-size:.78rem; letter-spacing:.5px; line-height:1.3; text-transform:uppercase;
   box-shadow:4px 4px 0 var(--tinta);
@@ -865,7 +866,7 @@ footer{ background:var(--tinta); color:var(--crema-2); padding:64px 0 24px; }
   transition:opacity .25s var(--ease), transform .3s var(--ease);
 }
 .buddy.show .buddy-bubble{ opacity:1; transform:none; }
-@media (max-width:600px){ .buddy{ bottom:84px; left:10px; width:48px; height:48px; } .buddy-bubble{ left:58px; font-size:.7rem; } }
+@media (max-width:600px){ .buddy{ bottom:78px; left:6px; width:70px; } .buddy-bubble{ left:66px; bottom:34px; font-size:.7rem; } }
 
 /* Scalloped section edges (sticker look) */
 .drops + .products::before,

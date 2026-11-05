@@ -451,10 +451,13 @@ const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matc
 
 // Mascot buddy: small avatar that comments on what the visitor does
 let buddyTimer;
-function buddySay(text){
+const BUDDY_POSES = { point:"assets/img/buddy-point.png", coffee:"assets/img/buddy-coffee.png", dj:"assets/img/buddy-dj.png" };
+Object.values(BUDDY_POSES).forEach(src => { const i = new Image(); i.src = src; });
+function buddySay(text, pose = "point"){
   const buddy = document.getElementById("buddy");
   const bubble = document.getElementById("buddyBubble");
   if(!buddy || !bubble) return;
+  document.getElementById("buddyImg").src = BUDDY_POSES[pose] || BUDDY_POSES.point;
   bubble.textContent = text;
   buddy.classList.add("show", "talk");
   clearTimeout(buddyTimer);
@@ -534,20 +537,34 @@ if(finePointer && !reduceMotion){
 
 // The buddy reacts when the visitor reaches key sections
 const buddyLines = {
-  drops: "Este drop ya voló… el próximo es Rubí 👀",
-  productos: "Nuestro Tradicional ya está disponible ☕",
-  newsletter: "¿Ya tienes tu 10% de descuento? 🔥"
+  drops: ["Este drop ya voló… el próximo es Rubí 👀", "dj"],
+  productos: ["Nuestro Tradicional ya está disponible ☕", "coffee"],
+  newsletter: ["¿Ya tienes tu 10% de descuento? 🔥", "point"]
 };
-const sectionObserver = new IntersectionObserver(entries => {
-  entries.forEach(en => {
-    if(!en.isIntersecting) return;
-    const key = en.target.id || en.target.dataset.buddy;
-    if(buddyLines[key]){ buddySay(buddyLines[key]); sectionObserver.unobserve(en.target); }
-  });
-}, { threshold: .35 });
-["drops", "productos"].forEach(id => { const el = document.getElementById(id); if(el) sectionObserver.observe(el); });
-const nl = document.querySelector("section.newsletter");
-if(nl){ nl.dataset.buddy = "newsletter"; sectionObserver.observe(nl); }
+const buddyTargets = [
+  [document.getElementById("drops"), "drops"],
+  [document.getElementById("productos"), "productos"],
+  [document.querySelector("section.newsletter"), "newsletter"]
+].filter(t => t[0]);
+let buddyTicking = false;
+function checkBuddySections(){
+  buddyTicking = false;
+  const mid = window.innerHeight / 2;
+  for(let i = buddyTargets.length - 1; i >= 0; i--){
+    const [el, key] = buddyTargets[i];
+    const r = el.getBoundingClientRect();
+    if(r.top < mid && r.bottom > mid){
+      buddySay(...buddyLines[key]);
+      buddyTargets.splice(i, 1);
+      break;
+    }
+  }
+  if(!buddyTargets.length) window.removeEventListener("scroll", onBuddyScroll);
+}
+function onBuddyScroll(){
+  if(!buddyTicking){ buddyTicking = true; requestAnimationFrame(checkBuddySections); }
+}
+window.addEventListener("scroll", onBuddyScroll, { passive: true });
 
 // ===== Init =====
 renderProducts();
