@@ -140,6 +140,7 @@ function addToCart(id){
   else{ cart.push({ id, qty: 1 }); }
   saveCart();
   showToast(`${product.name} añadido al carrito ☕`);
+  cartAddedFx(product);
 }
 
 function changeQty(id, delta){
@@ -243,6 +244,7 @@ function renderProducts(filter = "all"){
     <div class="product-card reveal in">
       <div class="product-media${p.labelStyle ? " label-fit" : ""}${p.mediaClass ? " " + p.mediaClass : ""}${p.comingSoon ? " mystery-blur" : ""}" onclick="openProductDetail('${p.id}')">
         <img src="${p.img}" alt="${p.name}">
+        ${!p.comingSoon && p.images && p.images[1] ? `<img class="alt-img" src="${p.images[1]}" alt="" aria-hidden="true" loading="lazy">` : ""}
         ${p.comingSoon ? `<span class="mystery-tag">🔒 Muy pronto</span>` : ""}
         ${p.badge ? `<span class="badge ${p.badgeType}">${p.badge}</span>` : ""}
       </div>
@@ -442,6 +444,110 @@ document.getElementById("menuToggle").addEventListener("click", () => {
   links.style.borderBottom = "3px solid var(--tinta)";
   links.style.gap = "18px";
 });
+
+// ===== Motion & interactivity =====
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+// Mascot buddy: small avatar that comments on what the visitor does
+let buddyTimer;
+function buddySay(text){
+  const buddy = document.getElementById("buddy");
+  const bubble = document.getElementById("buddyBubble");
+  if(!buddy || !bubble) return;
+  bubble.textContent = text;
+  buddy.classList.add("show", "talk");
+  clearTimeout(buddyTimer);
+  buddyTimer = setTimeout(() => buddy.classList.remove("show", "talk"), 4200);
+}
+
+// Remember the last tapped button so the cart animation can start from it
+let lastBtn = { rect: null, at: 0 };
+document.addEventListener("click", e => {
+  const b = e.target.closest("button");
+  if(b){ lastBtn = { rect: b.getBoundingClientRect(), at: Date.now() }; }
+}, true);
+
+function cartAddedFx(product){
+  const cartBtn = document.getElementById("openCart");
+  const count = document.getElementById("cartCount");
+  const bump = () => {
+    cartBtn.classList.remove("bump"); count.classList.remove("pop");
+    void cartBtn.offsetWidth;
+    cartBtn.classList.add("bump"); count.classList.add("pop");
+  };
+  buddySay("¡Buena elección! ☕");
+  if(reduceMotion || !lastBtn.rect || Date.now() - lastBtn.at > 800){ bump(); return; }
+  const from = lastBtn.rect, to = cartBtn.getBoundingClientRect();
+  const dot = document.createElement("img");
+  dot.src = product.img; dot.alt = ""; dot.className = "fly-dot";
+  document.body.appendChild(dot);
+  const sx = from.left + from.width/2 - 23, sy = from.top + from.height/2 - 23;
+  const ex = to.left + to.width/2 - 23, ey = to.top + to.height/2 - 23;
+  const anim = dot.animate([
+    { transform:`translate(${sx}px,${sy}px) scale(1)`, opacity:1 },
+    { transform:`translate(${(sx+ex)/2}px,${Math.min(sy,ey)-70}px) scale(.8)`, opacity:1, offset:.5 },
+    { transform:`translate(${ex}px,${ey}px) scale(.2)`, opacity:.5 }
+  ], { duration:750, easing:"cubic-bezier(.4,0,.6,1)" });
+  anim.onfinish = () => { dot.remove(); bump(); };
+}
+
+// Numbers that count up when they appear
+function countUp(el){
+  const target = parseInt(el.dataset.count, 10);
+  const prefix = el.dataset.prefix || "";
+  const pad = parseInt(el.dataset.pad || "0", 10);
+  const fmt = n => prefix + (pad ? String(n).padStart(pad, "0") : n.toLocaleString("es-CO"));
+  if(reduceMotion){ el.textContent = fmt(target); return; }
+  const dur = 1400, t0 = performance.now();
+  const step = now => {
+    const t = Math.min(1, (now - t0) / dur);
+    const eased = 1 - Math.pow(1 - t, 3);
+    el.textContent = fmt(Math.round(target * eased));
+    if(t < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+const countObserver = new IntersectionObserver(entries => {
+  entries.forEach(en => { if(en.isIntersecting){ countUp(en.target); countObserver.unobserve(en.target); } });
+}, { threshold: .6 });
+document.querySelectorAll("[data-count]").forEach(el => countObserver.observe(el));
+
+// Product cards tilt toward the cursor (desktop only)
+if(finePointer && !reduceMotion){
+  document.addEventListener("mousemove", e => {
+    const card = e.target.closest && e.target.closest(".product-card, .drop-card");
+    if(!card) return;
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - .5;
+    const y = (e.clientY - r.top) / r.height - .5;
+    card.style.setProperty("--ry", (x * 6).toFixed(2) + "deg");
+    card.style.setProperty("--rx", (-y * 6).toFixed(2) + "deg");
+  });
+  document.addEventListener("mouseout", e => {
+    const card = e.target.closest && e.target.closest(".product-card, .drop-card");
+    if(card && !card.contains(e.relatedTarget)){
+      card.style.removeProperty("--rx"); card.style.removeProperty("--ry");
+    }
+  });
+}
+
+// The buddy reacts when the visitor reaches key sections
+const buddyLines = {
+  drops: "Este drop ya voló… el próximo es Rubí 👀",
+  productos: "Nuestro Tradicional ya está disponible ☕",
+  newsletter: "¿Ya tienes tu 10% de descuento? 🔥"
+};
+const sectionObserver = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if(!en.isIntersecting) return;
+    const key = en.target.id || en.target.dataset.buddy;
+    if(buddyLines[key]){ buddySay(buddyLines[key]); sectionObserver.unobserve(en.target); }
+  });
+}, { threshold: .35 });
+["drops", "productos"].forEach(id => { const el = document.getElementById(id); if(el) sectionObserver.observe(el); });
+const nl = document.querySelector("section.newsletter");
+if(nl){ nl.dataset.buddy = "newsletter"; sectionObserver.observe(nl); }
 
 // ===== Init =====
 renderProducts();
