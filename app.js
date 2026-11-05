@@ -15,7 +15,7 @@ const PRODUCTS = [
     images: [
       "assets/img/castillo-etiqueta-v3.jpg",
       "assets/img/castillo-bag.jpg",
-      "assets/img/castillo-finca.jpg"
+      "assets/img/castillo-grano-molido.jpg"
     ],
     mediaClass: "wide-fit",
     labelStyle: false
