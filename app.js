@@ -11,13 +11,13 @@ const PRODUCTS = [
     price: 45000,
     badge: "EL TRADICIONAL",
     badgeType: "",
-    img: "assets/img/castillo-label-v2.jpg",
+    img: "assets/img/castillo-bag.jpg",
     images: [
-      "assets/img/castillo-label-v2.jpg",
       "assets/img/castillo-bag.jpg",
+      "assets/img/castillo-label-v2.jpg",
       "assets/img/castillo-finca.jpg"
     ],
-    labelStyle: true
+    labelStyle: false
   },
   {
     id: "drip-bags-x4",
