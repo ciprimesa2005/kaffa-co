@@ -805,3 +805,5 @@ footer{ background:var(--tinta); color:var(--crema-2); padding:64px 0 24px; }
   border:2px dashed var(--crema); border-radius:14px; max-width:480px;
 }
 @media (max-width:600px){ .hero-missed{ font-size:.78rem; padding:9px 14px; } }
+
+.detail-thumbs.mystery-blur .detail-thumb img{ filter:blur(4px) brightness(.65); transform:scale(1.15); }

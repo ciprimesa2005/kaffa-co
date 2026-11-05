@@ -12,7 +12,11 @@ const PRODUCTS = [
     badge: "EL TRADICIONAL",
     badgeType: "",
     img: "assets/img/castillo-label-v2.jpg",
-    images: ["assets/img/castillo-label-v2.jpg"],
+    images: [
+      "assets/img/castillo-label-v2.jpg",
+      "assets/img/castillo-bag.jpg",
+      "assets/img/castillo-finca.jpg"
+    ],
     labelStyle: true,
     comingSoon: true
   },
@@ -312,6 +316,7 @@ function openProductDetail(id){
   document.getElementById("detailMainImg").alt = p.name;
   document.getElementById("detailMainMedia").classList.toggle("mystery-blur", !!p.comingSoon);
   document.getElementById("detailMysteryTag").style.display = p.comingSoon ? "" : "none";
+  document.getElementById("detailThumbs").classList.toggle("mystery-blur", !!p.comingSoon);
   document.getElementById("detailThumbs").innerHTML = images.map((src, i) => `
     <button class="detail-thumb${i === 0 ? " active" : ""}" onclick="setDetailImage('${id}', ${i}, this)">
       <img src="${src}" alt="${p.name} foto ${i+1}">
