@@ -546,20 +546,20 @@ const buddyTargets = [
   [document.getElementById("productos"), "productos"],
   [document.querySelector("section.newsletter"), "newsletter"]
 ].filter(t => t[0]);
+let buddyCurrent = null;
 let buddyTicking = false;
 function checkBuddySections(){
   buddyTicking = false;
   const mid = window.innerHeight / 2;
-  for(let i = buddyTargets.length - 1; i >= 0; i--){
-    const [el, key] = buddyTargets[i];
+  let key = null;
+  for(const [el, k] of buddyTargets){
     const r = el.getBoundingClientRect();
-    if(r.top < mid && r.bottom > mid){
-      buddySay(...buddyLines[key]);
-      buddyTargets.splice(i, 1);
-      break;
-    }
+    if(r.top < mid && r.bottom > mid){ key = k; break; }
   }
-  if(!buddyTargets.length) window.removeEventListener("scroll", onBuddyScroll);
+  if(key !== buddyCurrent){
+    buddyCurrent = key;
+    if(key) buddySay(...buddyLines[key]);
+  }
 }
 function onBuddyScroll(){
   if(!buddyTicking){ buddyTicking = true; requestAnimationFrame(checkBuddySections); }
