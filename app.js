@@ -17,8 +17,7 @@ const PRODUCTS = [
       "assets/img/castillo-bag.jpg",
       "assets/img/castillo-finca.jpg"
     ],
-    labelStyle: true,
-    comingSoon: true
+    labelStyle: true
   },
   {
     id: "drip-bags-x4",
