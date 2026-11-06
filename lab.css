@@ -29,7 +29,7 @@
 .lab-chip:disabled{ opacity:.45; cursor:not-allowed; border-style:dashed; }
 .lab-cafe-note{ margin:12px 0 0; color:#4a4030; font-size:1.02rem; }
 
-.lab-methods{ display:grid; grid-template-columns:repeat(5,1fr); gap:10px; }
+.lab-methods{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
 .lab-method{
   border:2px solid var(--tinta); background:var(--crema); border-radius:14px; padding:14px 8px; min-height:84px;
   font-family:'Anton',sans-serif; font-size:.9rem; letter-spacing:.5px; text-transform:uppercase; color:var(--tinta);
@@ -119,3 +119,5 @@
   .lab-step.active{ transform:none; }
   .lab-timer.running .lab-dot{ animation:none; }
 }
+
+.lab-stat.text strong{ font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:1.15rem; line-height:1.2; letter-spacing:0; text-transform:none; margin-bottom:4px; }

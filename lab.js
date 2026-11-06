@@ -11,8 +11,8 @@ const CAFES = {
 
 const METHODS = {
   v60: {
-    name: "V60", tag: "Filtrado · limpio y brillante",
-    coffeePerCup: 15, waterPerCup: 240, ratio: "1:16", temp: "94 °C",
+    name: "V60 / Origami", tag: "Filtrado · limpio y brillante",
+    coffee: 20, water: 300, ratio: "1:15", temp: "94 °C", timeLabel: "2:30–3:00",
     grind: ["Media-fina", "como sal fina"],
     prep: "Antes de empezar: enjuaga el filtro con agua caliente, descarta ese agua, agrega el café y nivela la cama.",
     steps: [
@@ -23,14 +23,28 @@ const METHODS = {
       { title: "Segundo vertido", from: 75, to: 110, target: (c, w) => w,
         text: (c, w) => `Completa hasta ${w} ml con el mismo movimiento suave.` },
       { title: "Goteo final", from: 110, to: 180, target: null,
-        text: () => "No muevas nada: deja que termine de gotear. Debe acabar cerca de 3:00." }
+        text: () => "No muevas nada: deja que termine de gotear. Debe acabar entre 2:30 y 3:00." }
+    ]
+  },
+  prensa: {
+    name: "Prensa francesa", tag: "Inmersión · cuerpo y dulzor",
+    coffee: 30, water: 450, ratio: "1:15", temp: "94 °C",
+    grind: ["Media", "como arena"],
+    prep: "Antes de empezar: calienta la prensa con agua caliente, descártala y agrega el café.",
+    steps: [
+      { title: "Vierte el agua", from: 0, to: 30, target: (c, w) => w,
+        text: (c, w) => `Vierte los ${w} ml de una vez, cubriendo todo el café.` },
+      { title: "Reposo", from: 30, to: 240, target: null,
+        text: () => "Tapa sin presionar el émbolo y espera. No lo toques." },
+      { title: "Presiona y sirve", from: 240, to: 270, target: null,
+        text: () => "Presiona despacio hasta el fondo y sirve enseguida para que no se amargue." }
     ]
   },
   aeropress: {
-    name: "AeroPress", tag: "Presión suave · limpio e intenso", maxCups: 1,
-    coffeePerCup: 15, waterPerCup: 225, ratio: "1:15", temp: "92 °C",
+    name: "AeroPress", tag: "Presión suave · limpio e intenso",
+    coffee: 13, water: 195, ratio: "1:15", temp: "94 °C",
     grind: ["Media-fina", "como azúcar"],
-    prep: "Antes de empezar: coloca el filtro de papel en la tapa, enjuágalo con agua caliente y arma la AeroPress sobre tu taza (método clásico, no invertido). La AeroPress prepara una taza por vez: para más, repite la receta.",
+    prep: "Antes de empezar: coloca el filtro de papel en la tapa, enjuágalo con agua caliente y arma la AeroPress sobre tu taza (método clásico, no invertido).",
     steps: [
       { title: "Bloom", from: 0, to: 30, target: (c) => c * 3,
         text: (c) => `Agrega el café, vierte ${c * 3} ml y remueve suave para mojarlo todo.` },
@@ -42,50 +56,17 @@ const METHODS = {
         text: () => "Presiona despacio y con constancia durante unos 30 segundos. Detente cuando oigas el siseo del aire." }
     ]
   },
-  prensa: {
-    name: "Prensa francesa", tag: "Inmersión · cuerpo y dulzor",
-    coffeePerCup: 16, waterPerCup: 240, ratio: "1:15", temp: "94 °C",
-    grind: ["Gruesa", "como sal de mar"],
-    prep: "Antes de empezar: calienta la prensa con agua caliente, descártala y agrega el café.",
-    steps: [
-      { title: "Vierte el agua", from: 0, to: 30, target: (c, w) => w,
-        text: (c, w) => `Vierte los ${w} ml de una vez, cubriendo todo el café.` },
-      { title: "Reposo", from: 30, to: 240, target: null,
-        text: () => "Tapa sin presionar el émbolo y espera. No lo toques." },
-      { title: "Presiona y sirve", from: 240, to: 270, target: null,
-        text: () => "Presiona despacio hasta el fondo y sirve enseguida para que no se amargue." }
-    ]
-  },
   moka: {
-    name: "Moka / Greca", tag: "Intenso · estilo espresso",
-    coffeePerCup: 7, waterPerCup: 70, ratio: "1:10", temp: "Agua caliente",
+    name: "Moka italiana", tag: "Intenso · estilo espresso",
+    open: true, ratio: "", temp: "Ambiente",
+    customStats: [["Llena la canastilla", "Café"], ["Hasta la mitad de la válvula", "Agua"], ["Agua a temperatura ambiente", "Temperatura"], ["Según el fuego", "Tiempo"]],
     grind: ["Media-fina", "un poco más gruesa que espresso"],
-    prep: "Usa la medida de tu moka: llena la base hasta la válvula y el filtro al ras, sin apretar. Las cantidades de arriba son una guía por taza pequeña.",
+    prep: "La moka no lleva medidas exactas: se llena a ojo, como indica cada paso. El cronómetro de abajo cuenta el tiempo, pero lo que manda es el fuego.",
     steps: [
-      { title: "Llena la base", from: 0, to: 30, target: (c, w) => w,
-        text: (c, w) => `Con agua recién hervida, llena la base hasta la válvula (≈ ${w} ml).` },
-      { title: "Agrega el café", from: 30, to: 60, target: null,
-        text: (c) => `Pon ${c} g en el filtro, nivelado y sin apretar. Arma y cierra bien.` },
-      { title: "Al fuego", from: 60, to: 210, target: null,
-        text: () => "Fuego medio-bajo y la tapa abierta. Espera a que el café suba." },
-      { title: "Detén y sirve", from: 210, to: 240, target: null,
-        text: () => "Cuando empiece a borbotear, retira del fuego y enfría la base con un paño húmedo." }
-    ]
-  },
-  goteo: {
-    name: "Cafetera de goteo", tag: "Práctico · para varias tazas",
-    coffeePerCup: 15, waterPerCup: 240, ratio: "1:16", temp: "Automática",
-    grind: ["Media", "como arena"],
-    prep: "Antes de empezar: coloca el filtro de papel y enjuágalo con agua caliente.",
-    steps: [
-      { title: "Agrega el café", from: 0, to: 30, target: null,
-        text: (c) => `Pon ${c} g de café en el filtro y nivélalo con una sacudida suave.` },
-      { title: "Llena el depósito", from: 30, to: 60, target: (c, w) => w,
-        text: (c, w) => `Agrega ${w} ml de agua fría o a temperatura ambiente.` },
-      { title: "Enciende y espera", from: 60, to: 330, target: null,
-        text: () => "Enciende la cafetera y espera a que termine de gotear." },
-      { title: "Mezcla y sirve", from: 330, to: 360, target: null,
-        text: () => "Mezcla suavemente la jarra para igualar el sabor y sirve." }
+      { title: "Llena la base", text: () => "Agrega agua a temperatura ambiente hasta la mitad de la válvula." },
+      { title: "Llena la canastilla", text: () => "Pon el café molido media-fina hasta llenar la canastilla, sin compactar." },
+      { title: "Al fuego", text: () => "Arma, cierra bien y llévala al fuego con la tapa abierta." },
+      { title: "Detén y sirve", text: () => "Cuando el café suba y empiece a borbotear, retírala del fuego y sirve." }
     ]
   }
 };
@@ -97,7 +78,7 @@ const TIPS = [
 ];
 
 const BUDDY_POSES = { point: "assets/img/buddy-point.png", coffee: "assets/img/buddy-coffee.png", dj: "assets/img/buddy-dj.png" };
-const state = { cafe: "tradicional", method: "v60", cups: 1 };
+const state = { cafe: "tradicional", method: "v60" };
 const $ = (id) => document.getElementById(id);
 const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -117,9 +98,8 @@ Object.values(BUDDY_POSES).forEach((src) => { const i = new Image(); i.src = src
 // ---------- Receta ----------
 function current() {
   const m = METHODS[state.method];
-  const c = m.coffeePerCup * state.cups;
-  const w = m.waterPerCup * state.cups;
-  return { m, c, w, total: m.steps[m.steps.length - 1].to };
+  const last = m.steps[m.steps.length - 1];
+  return { m, c: m.coffee, w: m.water, total: m.open ? Infinity : last.to };
 }
 
 function renderChoices() {
@@ -128,31 +108,34 @@ function renderChoices() {
   $("cafeNote").textContent = CAFES[state.cafe].note || "";
   $("methodGrid").innerHTML = Object.entries(METHODS).map(([id, m]) =>
     `<button type="button" class="lab-method" data-method="${id}" aria-pressed="${state.method === id}">${m.name}<small>${m.tag}</small></button>`).join("");
-  $("cupChips").innerHTML = [1, 2, 3].map((n) =>
-    `<button type="button" class="lab-chip" data-cups="${n}" aria-pressed="${state.cups === n}" ${n > (METHODS[state.method].maxCups || 3) ? "disabled" : ""}>${n} ${n === 1 ? "taza" : "tazas"}</button>`).join("");
 }
 
 function renderRecipe() {
   const { m, c, w, total } = current();
-  $("recipeTitle").textContent = `${m.name} · ${CAFES[state.cafe].name} · ${state.cups} ${state.cups === 1 ? "taza" : "tazas"}`;
+  $("recipeTitle").textContent = `${m.name} · ${CAFES[state.cafe].name}`;
   $("recipeRatio").textContent = m.ratio;
-  const tempIsNumber = /\d/.test(m.temp);
-  $("recipeStats").innerHTML = [
-    [`${c}<small>g</small>`, "Café"],
-    [`${w}<small>ml</small>`, "Agua"],
-    [tempIsNumber ? `${m.temp.replace(/\s*°C/, "")}<small>°C</small>` : `<small style="margin:0;font-size:1.1rem">${m.temp}</small>`, "Temperatura"],
-    [`${fmt(total)}<small>min</small>`, "Tiempo total"]
-  ].map(([v, k]) => `<div class="lab-stat"><strong>${v}</strong><span>${k}</span></div>`).join("");
+  const tiles = m.customStats ||
+    [
+      [`${c}<small>g</small>`, "Café"],
+      [`${w}<small>ml</small>`, "Agua"],
+      [`${m.temp.replace(/\s*°C/, "")}<small>°C</small>`, "Temperatura"],
+      [m.timeLabel ? `${m.timeLabel}<small>min</small>` : `${fmt(total)}<small>min</small>`, "Tiempo"]
+    ];
+  $("recipeStats").innerHTML = tiles.map(([v, k]) => {
+    const isText = !!m.customStats;
+    return `<div class="lab-stat${isText ? " text" : ""}"><strong>${v}</strong><span>${k}</span></div>`;
+  }).join("");
   $("grindLabel").textContent = m.grind[0];
   $("grindHint").textContent = m.grind[1];
   $("tipsList").innerHTML = TIPS.map((t) => `<li>${t}</li>`).join("");
   $("prepNote").textContent = m.prep;
   $("stepsList").innerHTML = m.steps.map((s, i) => {
     const target = s.target ? s.target(c, w) : null;
+    const when = m.open ? "" : `${fmt(s.from)} – ${fmt(s.to)}`;
     return `<li class="lab-step" data-step="${i}">
       <span class="lab-step-n">${i + 1}</span>
       <div><h3>${s.title}</h3><p>${s.text(c, w)}</p></div>
-      <div class="lab-step-meta">${target ? `<b>→ ${target} ml</b>` : ""}${fmt(s.from)} – ${fmt(s.to)}</div>
+      <div class="lab-step-meta">${target ? `<b>→ ${target} ml</b>` : ""}${when}</div>
     </li>`;
   }).join("");
 }
@@ -173,8 +156,10 @@ function beep(freq = 880, ms = 160) {
 
 function paintSteps() {
   const { m } = current();
+  if (m.open) { document.querySelectorAll(".lab-step").forEach((el) => el.classList.remove("active", "done")); return; }
   document.querySelectorAll(".lab-step").forEach((el, i) => {
     const s = m.steps[i];
+    if (!s) return;
     el.classList.toggle("active", timer.step === i && !timer.finished);
     el.classList.toggle("done", timer.finished || (timer.step > i) || (timer.elapsed >= s.to));
   });
@@ -199,8 +184,9 @@ function tick() {
   timer.elapsed += (now - timer.last) / 1000;
   timer.last = now;
   const { m, total } = current();
-  if (timer.elapsed >= total) { finish(); return; }
+  if (!m.open && timer.elapsed >= total) { finish(); return; }
   $("labClock").textContent = fmt(timer.elapsed);
+  if (m.open) return;
   const idx = m.steps.findIndex((s) => timer.elapsed >= s.from && timer.elapsed < s.to);
   if (idx !== -1 && idx !== timer.step) { timer.step = idx; onStepChange(idx); }
   paintSteps();
@@ -220,6 +206,7 @@ function start() {
   $("labTimer").classList.add("running");
   $("startBtn").textContent = "Pausar";
   keepAwake();
+  if (current().m.open) { $("labNow").textContent = "Cronómetro: lo que manda es el fuego"; return; }
   if (timer.step === -1) { timer.step = 0; onStepChange(0); paintSteps(); }
 }
 
@@ -262,10 +249,9 @@ document.addEventListener("click", (e) => {
   const b = e.target.closest("button");
   if (!b) return;
   if (b.dataset.cafe) { state.cafe = b.dataset.cafe; }
-  else if (b.dataset.method) { state.method = b.dataset.method; state.cups = Math.min(state.cups, METHODS[state.method].maxCups || 3); }
-  else if (b.dataset.cups) { state.cups = parseInt(b.dataset.cups, 10); }
+  else if (b.dataset.method) { state.method = b.dataset.method; }
   else return;
-  reset(); renderChoices(); renderRecipe();
+  renderChoices(); renderRecipe(); reset();
 });
 $("startBtn").addEventListener("click", () => (timer.running ? pause() : start()));
 $("resetBtn").addEventListener("click", reset);
