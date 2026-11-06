@@ -56,6 +56,22 @@ const METHODS = {
         text: () => "Presiona despacio hasta el fondo y sirve enseguida para que no se amargue." }
     ]
   },
+  moka: {
+    name: "Moka / Greca", tag: "Intenso · estilo espresso",
+    coffeePerCup: 7, waterPerCup: 70, ratio: "1:10", temp: "Agua caliente",
+    grind: ["Media-fina", "un poco más gruesa que espresso"],
+    prep: "Usa la medida de tu moka: llena la base hasta la válvula y el filtro al ras, sin apretar. Las cantidades de arriba son una guía por taza pequeña.",
+    steps: [
+      { title: "Llena la base", from: 0, to: 30, target: (c, w) => w,
+        text: (c, w) => `Con agua recién hervida, llena la base hasta la válvula (≈ ${w} ml).` },
+      { title: "Agrega el café", from: 30, to: 60, target: null,
+        text: (c) => `Pon ${c} g en el filtro, nivelado y sin apretar. Arma y cierra bien.` },
+      { title: "Al fuego", from: 60, to: 210, target: null,
+        text: () => "Fuego medio-bajo y la tapa abierta. Espera a que el café suba." },
+      { title: "Detén y sirve", from: 210, to: 240, target: null,
+        text: () => "Cuando empiece a borbotear, retira del fuego y enfría la base con un paño húmedo." }
+    ]
+  },
   goteo: {
     name: "Cafetera de goteo", tag: "Práctico · para varias tazas",
     coffeePerCup: 15, waterPerCup: 240, ratio: "1:16", temp: "Automática",
