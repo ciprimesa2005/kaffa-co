@@ -14,10 +14,12 @@ function safeEqual(a, b) {
 function parseItems(reference) {
   const code = String(reference || "").split("-").slice(3).join("-");
   return code.split("_").map(tok => {
-    const m = /^([A-Z0-9]+)x(\d+)$/.exec(tok);
+    const m = /^([A-Z0-9]+)x(\d+)([a-z]{0,2})$/.exec(tok);
     if (!m) return null;
-    const entry = Object.values(catalog).find(c => c.code === m[1]);
-    return entry ? { name: entry.name, price: entry.price, qty: parseInt(m[2], 10) } : null;
+    const entry = Object.values(catalog).find(c => c && c.code === m[1]);
+    if (!entry) return null;
+    const g = Object.values(catalog.GRIND).find(x => x.code === m[3]);
+    return { name: entry.name, price: entry.price, qty: parseInt(m[2], 10), grind: g ? g.label : "" };
   }).filter(Boolean);
 }
 
@@ -35,7 +37,7 @@ function buildEmail(tx) {
   const row = (k, v) => `<tr><td style="padding:6px 12px 6px 0;color:#7a7160;vertical-align:top">${k}</td><td style="padding:6px 0"><strong>${v}</strong></td></tr>`;
 
   const itemsHtml = items.length
-    ? items.map(i => `<li>${esc(i.name)} × ${i.qty} — ${money(i.price * i.qty)}</li>`).join("")
+    ? items.map(i => `<li>${esc(i.name)} × ${i.qty} — ${money(i.price * i.qty)}${i.grind ? `<br><strong style="color:#a5261a">${esc(i.grind)}</strong>` : ""}</li>`).join("")
     : "<li>No se pudo leer el detalle de productos (revisa la referencia en Wompi).</li>";
 
   const html = `<div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;color:#201a12">
@@ -46,7 +48,7 @@ function buildEmail(tx) {
   <table style="margin-top:10px">${shipping !== null ? row("Envío", money(shipping)) : ""}${row("Total pagado", money(total))}${row("Método", esc(tx.payment_method_type || "—"))}</table>
   <h3 style="margin:18px 0 6px">Cliente y envío</h3>
   <table>${row("Nombre", esc(name))}${row("Correo", email ? `<a href="mailto:${esc(email)}">${esc(email)}</a>` : "—")}${row("Celular", phone ? `<a href="https://wa.me/57${esc(phone)}">${esc(phone)}</a> (WhatsApp)` : "—")}${row("Dirección", esc(sa.address_line_1 || "—"))}${row("Ciudad", esc([sa.city, sa.region].filter(Boolean).join(", ") || "—"))}</table>
-  <p style="margin-top:18px;color:#7a7160;font-size:13px">Más detalles en tu panel de Wompi → Transacciones. Recuerda confirmar con el cliente si lo quiere en grano o molido.</p>
+  <p style="margin-top:18px;color:#7a7160;font-size:13px">Más detalles en tu panel de Wompi → Transacciones. Si pidió café molido, revisa para qué método.</p>
 </div>`;
   return { subject: `Nuevo pedido pagado ${money(total)} — ${name}`, html };
 }

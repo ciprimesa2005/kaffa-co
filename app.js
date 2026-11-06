@@ -9,6 +9,7 @@ const PRODUCTS = [
     kindLabel: "Grano Entero o Molido · 340g",
     desc: "Origen Valparaíso, Antioquia · 1.850 msnm. Variedad Castillo, proceso semi-lavado, tueste medio. Notas a caramelo, chocolate y panela, acidez media. El tradicional que nunca falta.",
     price: 45000,
+    grindOption: true,
     badge: "EL TRADICIONAL",
     badgeType: "",
     img: "assets/img/castillo-etiqueta-v3.jpg",
@@ -113,6 +114,23 @@ const money = n => "$" + n.toLocaleString("es-CO");
 // ===== Cart state =====
 let cart = JSON.parse(localStorage.getItem("kaffa_cart") || "[]");
 
+const GRIND_OPTIONS = {
+  grano: "Grano entero",
+  v60: "Molido para V60 / Origami",
+  prensa: "Molido para prensa francesa",
+  aeropress: "Molido para AeroPress",
+  moka: "Molido para moka italiana",
+  otro: "Molido (otro método)"
+};
+cart.forEach(c => { const p = (PRODUCTS.find(x => x.id === c.id)); if(p && p.grindOption && !GRIND_OPTIONS[c.opt]) c.opt = "grano"; });
+
+function setGrind(id, opt){
+  const item = cart.find(c => c.id === id);
+  if(!item || !GRIND_OPTIONS[opt]) return;
+  item.opt = opt;
+  saveCart();
+}
+
 function saveCart(){
   localStorage.setItem("kaffa_cart", JSON.stringify(cart));
   renderCart();
@@ -140,7 +158,7 @@ function addToCart(id){
   }
 
   if(existing){ existing.qty += 1; }
-  else{ cart.push({ id, qty: 1 }); }
+  else{ cart.push(product.grindOption ? { id, qty: 1, opt: "grano" } : { id, qty: 1 }); }
   saveCart();
   showToast(`${product.name} añadido al carrito ☕`);
   cartAddedFx(product);
@@ -183,6 +201,9 @@ function renderCart(){
           <div class="cart-item-info">
             <strong>${p.name}</strong>
             <span>${money(p.price)} c/u</span>
+            ${p.grindOption ? `<label class="grind-pick">¿Cómo lo quieres?
+              <select onchange="setGrind('${p.id}', this.value)">${Object.entries(GRIND_OPTIONS).map(([k,v]) => `<option value="${k}"${c.opt === k ? " selected" : ""}>${v}</option>`).join("")}</select>
+            </label>` : ""}
             <div class="qty-row">
               <button class="qty-btn" onclick="changeQty('${p.id}',-1)">−</button>
               <span>${c.qty}</span>
@@ -219,7 +240,10 @@ function buildCheckoutLink(total){
   let msg = "¡Hola Kaffa & CO! Quiero pedir:\n\n";
   cart.forEach(c => {
     const p = findItem(c.id);
-    if(p) msg += `• ${p.name} (${p.kindLabel}) x${c.qty} — ${money(p.price*c.qty)}\n`;
+    if(p){
+      msg += `• ${p.name} (${p.kindLabel}) x${c.qty} — ${money(p.price*c.qty)}\n`;
+      if(p.grindOption && GRIND_OPTIONS[c.opt]) msg += `   ${GRIND_OPTIONS[c.opt]}\n`;
+    }
   });
   msg += `\nTotal: ${money(total)}\n\n¿Cómo sigo con el pago?`;
   const encodedMsg = encodeURIComponent(msg);
@@ -623,7 +647,7 @@ payForm.addEventListener("submit", async e => {
     const r = await fetch("/api/wompi-checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items: cart.map(c => ({ id: c.id, qty: c.qty })), customer: f })
+      body: JSON.stringify({ items: cart.map(c => ({ id: c.id, qty: c.qty, opt: c.opt })), customer: f })
     });
     const data = await r.json().catch(() => ({}));
     if(!r.ok || !data.url){

@@ -29,16 +29,23 @@ module.exports = async (req, res) => {
   // --- Carrito: los precios SIEMPRE salen del catálogo del servidor ---
   const rawItems = Array.isArray(body.items) ? body.items.slice(0, 20) : [];
   const qtyById = {};
+  const optById = {};
   for (const it of rawItems) {
     const id = clean(it && it.id, 60);
     const qty = parseInt(it && it.qty, 10);
-    if (!catalog[id] || !catalog[id].available) {
+    if (id === "GRIND" || !catalog[id] || !catalog[id].available) {
       return fail(res, 400, "unavailable", "Un producto del carrito aún no está disponible para pago en línea.");
     }
     if (!Number.isInteger(qty) || qty < 1 || qty > 20) {
       return fail(res, 400, "bad_qty", "Cantidad inválida.");
     }
     qtyById[id] = (qtyById[id] || 0) + qty;
+    if (catalog[id].grind) {
+      const opt = clean(it && it.opt, 20) || "grano";
+      if (!catalog.GRIND[opt]) return fail(res, 400, "bad_grind", "Elige cómo quieres tu café (grano o molido).");
+      if (optById[id] && optById[id] !== opt) return fail(res, 400, "bad_grind", "Un mismo producto no puede llevar dos tipos de molienda.");
+      optById[id] = opt;
+    }
   }
   const ids = Object.keys(qtyById);
   if (!ids.length) return fail(res, 400, "empty_cart", "Tu carrito está vacío.");
@@ -76,7 +83,7 @@ module.exports = async (req, res) => {
 
   const amountInCents = total * 100;
   const currency = "COP";
-  const itemsCode = ids.map(id => `${catalog[id].code}x${qtyById[id]}`).join("_");
+  const itemsCode = ids.map(id => `${catalog[id].code}x${qtyById[id]}${catalog[id].grind ? catalog.GRIND[optById[id]].code : ""}`).join("_");
   const reference = "KAFFA-" + Date.now().toString(36).toUpperCase() + "-" + crypto.randomBytes(3).toString("hex").toUpperCase() + "-" + itemsCode;
   const signature = crypto
     .createHash("sha256")
