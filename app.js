@@ -196,8 +196,8 @@ function renderCart(){
 
   const note = document.getElementById("shipNote");
   if(total === 0){ note.textContent = ""; }
-  else if(total >= 120000){ note.textContent = "🎉 ¡Tu pedido tiene envío gratis!"; }
-  else{ note.textContent = `Te faltan ${money(120000-total)} para envío gratis`; }
+  else if(total >= 90000){ note.textContent = "🎉 ¡Tu pedido tiene envío gratis!"; }
+  else{ note.textContent = `Te faltan ${money(90000-total)} para envío gratis (gratis en Medellín)`; }
 
   buildCheckoutLink(total);
   if(typeof updatePayShipNote === "function") updatePayShipNote();
@@ -587,16 +587,20 @@ async function initWompi(){
   }catch(e){ /* sin pago en línea: el carrito sigue funcionando por WhatsApp */ }
 }
 
+const isMedellinCity = c => c.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim() === "medellin";
 function updatePayShipNote(){
   const el = document.getElementById("payShip");
   if(!wompiCfg || !el) return;
   const total = cartTotal();
-  if(total >= wompiCfg.freeShippingFrom){ el.textContent = "🎉 Envío gratis en este pedido."; }
+  const city = payForm.elements.city ? payForm.elements.city.value : "";
+  if(isMedellinCity(city)){ el.textContent = `🎉 Envío gratis en Medellín. Total a pagar: ${money(total)}.`; }
+  else if(total >= wompiCfg.freeShippingFrom){ el.textContent = "🎉 Envío gratis en este pedido."; }
   else if(wompiCfg.shippingFee){
-    el.textContent = `Envío ${money(wompiCfg.shippingFee)} (gratis desde ${money(wompiCfg.freeShippingFrom)}). Total a pagar: ${money(total + wompiCfg.shippingFee)}.`;
+    el.textContent = `Envío ${money(wompiCfg.shippingFee)} (gratis en Medellín y desde ${money(wompiCfg.freeShippingFrom)}). Total a pagar: ${money(total + wompiCfg.shippingFee)}.`;
   }
-  else{ el.textContent = `Envío gratis desde ${money(wompiCfg.freeShippingFrom)}.`; }
+  else{ el.textContent = `Envío gratis en Medellín y desde ${money(wompiCfg.freeShippingFrom)}.`; }
 }
+payForm.addEventListener("input", e => { if(e.target.name === "city") updatePayShipNote(); });
 
 document.getElementById("payBtn").addEventListener("click", () => {
   if(cart.length === 0){ showToast("Agrega un producto para pagar en línea ☕"); return; }

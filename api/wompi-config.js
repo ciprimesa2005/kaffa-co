@@ -8,6 +8,6 @@ module.exports = (req, res) => {
     enabled: Boolean(pub && secret),
     mode: pub.startsWith("pub_test_") ? "sandbox" : "production",
     shippingFee: Number.isFinite(fee) && fee > 0 ? fee : null,
-    freeShippingFrom: 120000
+    freeShippingFrom: 90000, freeCity: "Medellín"
   });
 };
