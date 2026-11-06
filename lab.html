@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kaffa Lab: calculadora de recetas de café | Kaffa & CO</title>
+<meta name="description" content="Kaffa Lab: elige tu método (V60, prensa francesa, moka o cafetera de goteo) y prepara tu café con la receta exacta, paso a paso y con temporizador.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/img/mascot-clean.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=26">
+<link rel="stylesheet" href="lab.css?v=1">
+</head>
+<body class="lab-page">
+
+<header class="site">
+  <nav class="nav">
+    <a href="/" class="brand"><img src="assets/img/mascot-mug.jpg" alt="Kaffa & CO" class="brand-logo"></a>
+    <div class="nav-links">
+      <a href="/#drops">🔥 Drops</a>
+      <a href="/#productos">Tradicional</a>
+      <a href="/lab" aria-current="page">Kaffa Lab</a>
+    </div>
+    <div class="nav-actions">
+      <a href="/#productos" class="btn btn-primary lab-shop-btn">Ir a la tienda →</a>
+    </div>
+  </nav>
+</header>
+
+<main class="lab-wrap">
+  <section class="lab-hero">
+    <span class="section-tag">Kaffa Lab</span>
+    <h1>Prepáralo como en la montaña</h1>
+    <p>Elige tu método y cuántas tazas vas a servir. Te damos la receta exacta y un temporizador que te guía paso a paso.</p>
+  </section>
+
+  <section class="lab-card" aria-labelledby="lab-cafe">
+    <h2 class="lab-label" id="lab-cafe">1 · Tu café</h2>
+    <div class="lab-chips" id="cafeChips" role="group" aria-label="Café"></div>
+    <p class="lab-cafe-note" id="cafeNote"></p>
+
+    <h2 class="lab-label">2 · Tu método</h2>
+    <div class="lab-methods" id="methodGrid" role="group" aria-label="Método de preparación"></div>
+
+    <h2 class="lab-label">3 · Tazas</h2>
+    <div class="lab-chips lab-cups" id="cupChips" role="group" aria-label="Número de tazas"></div>
+  </section>
+
+  <section class="lab-card" aria-live="polite">
+    <div class="lab-recipe-head">
+      <h2 id="recipeTitle"></h2>
+      <span class="lab-ratio" id="recipeRatio"></span>
+    </div>
+    <div class="lab-stats" id="recipeStats"></div>
+
+    <div class="lab-grind">
+      <span class="lab-label">Molienda</span>
+      <strong id="grindLabel"></strong> <em id="grindHint"></em>
+      <details class="lab-details">
+        <summary>Ajustes por sabor</summary>
+        <ul id="tipsList"></ul>
+      </details>
+    </div>
+
+    <p class="lab-prep" id="prepNote"></p>
+
+    <h2 class="lab-label">Paso a paso</h2>
+    <ol class="lab-steps" id="stepsList"></ol>
+
+    <div class="lab-done" id="labDone" hidden>
+      <h3>¡Listo! ☕</h3>
+      <p>Así sabe el café de la montaña. Si te gustó, pídelo en grano o molido para tu método.</p>
+      <a class="btn btn-primary" href="/#productos">Comprar el Tradicional →</a>
+    </div>
+
+    <p class="lab-disclaimer">Receta base de Kaffa Lab. Los tiempos y medidas son un punto de partida: ajústalos a tu gusto.</p>
+  </section>
+</main>
+
+<div class="lab-timer" id="labTimer" role="group" aria-label="Temporizador">
+  <div class="lab-clock"><span class="lab-dot" id="labDot"></span><span id="labClock">0:00</span></div>
+  <div class="lab-timer-info" id="labNow">Listo para empezar</div>
+  <button type="button" class="lab-sound" id="soundBtn" aria-pressed="true" title="Sonido">🔔</button>
+  <button type="button" class="btn btn-primary lab-start" id="startBtn">Comenzar</button>
+  <button type="button" class="lab-reset" id="resetBtn" aria-label="Reiniciar">↺</button>
+</div>
+
+<footer class="lab-foot">
+  <p>Kaffa & CO · Fresco como la montaña 🤘</p>
+  <p><a href="/">Tienda</a> · <a href="https://www.instagram.com/kaffaandco_/" target="_blank" rel="noopener">Instagram</a> · <a href="https://wa.me/573024645777" target="_blank" rel="noopener">WhatsApp</a></p>
+</footer>
+
+<div class="buddy" id="buddy"><div class="buddy-bubble" id="buddyBubble" role="status"></div><img id="buddyImg" src="assets/img/buddy-point.png" alt="" aria-hidden="true"></div>
+
+<script src="lab.js?v=1"></script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
