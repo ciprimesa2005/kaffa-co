@@ -335,6 +335,7 @@ function openProductDetail(id){
     ? `<span class="old">${money(p.oldPrice)}</span>${money(p.price)}`
     : money(p.price);
 
+  document.getElementById("detailLab").hidden = !(id === "castillo-entero" && !p.comingSoon);
   const cta = document.getElementById("detailCta");
   if(p.comingSoon){
     cta.outerHTML = `<button class="add-btn coming-soon" id="detailCta" disabled>Coming Soon</button>`;
