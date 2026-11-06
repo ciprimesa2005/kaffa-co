@@ -28,28 +28,30 @@ module.exports = async (req, res) => {
 
   // --- Carrito: los precios SIEMPRE salen del catálogo del servidor ---
   const rawItems = Array.isArray(body.items) ? body.items.slice(0, 20) : [];
-  const qtyById = {};
-  const optById = {};
+  const lines = {}; // clave "id|opcion" -> { id, opt, qty }
   for (const it of rawItems) {
     const id = clean(it && it.id, 60);
     const qty = parseInt(it && it.qty, 10);
-    if (id === "GRIND" || !catalog[id] || !catalog[id].available) {
+    if (id === "GRIND" || id === "GRIND_LEGACY" || !catalog[id] || !catalog[id].available) {
       return fail(res, 400, "unavailable", "Un producto del carrito aún no está disponible para pago en línea.");
     }
     if (!Number.isInteger(qty) || qty < 1 || qty > 20) {
       return fail(res, 400, "bad_qty", "Cantidad inválida.");
     }
-    qtyById[id] = (qtyById[id] || 0) + qty;
+    let opt = "";
     if (catalog[id].grind) {
-      const opt = clean(it && it.opt, 20) || "grano";
+      opt = clean(it && it.opt, 20) || "grano";
+      if (catalog.GRIND_LEGACY.includes(opt)) opt = "molido";
       if (!catalog.GRIND[opt]) return fail(res, 400, "bad_grind", "Elige cómo quieres tu café (grano o molido).");
-      if (optById[id] && optById[id] !== opt) return fail(res, 400, "bad_grind", "Un mismo producto no puede llevar dos tipos de molienda.");
-      optById[id] = opt;
     }
+    const key = id + "|" + opt;
+    if (!lines[key]) lines[key] = { id, opt, qty: 0 };
+    lines[key].qty += qty;
+    if (lines[key].qty > 20) return fail(res, 400, "bad_qty", "Cantidad inválida.");
   }
-  const ids = Object.keys(qtyById);
-  if (!ids.length) return fail(res, 400, "empty_cart", "Tu carrito está vacío.");
-  const subtotal = ids.reduce((sum, id) => sum + catalog[id].price * qtyById[id], 0);
+  const keys = Object.keys(lines);
+  if (!keys.length) return fail(res, 400, "empty_cart", "Tu carrito está vacío.");
+  const subtotal = keys.reduce((sum, k) => sum + catalog[lines[k].id].price * lines[k].qty, 0);
 
   // --- Datos del cliente ---
   const c = body.customer || {};
@@ -83,7 +85,7 @@ module.exports = async (req, res) => {
 
   const amountInCents = total * 100;
   const currency = "COP";
-  const itemsCode = ids.map(id => `${catalog[id].code}x${qtyById[id]}${catalog[id].grind ? catalog.GRIND[optById[id]].code : ""}`).join("_");
+  const itemsCode = keys.map(k => `${catalog[lines[k].id].code}x${lines[k].qty}${lines[k].opt ? catalog.GRIND[lines[k].opt].code : ""}`).join("_");
   const reference = "KAFFA-" + Date.now().toString(36).toUpperCase() + "-" + crypto.randomBytes(3).toString("hex").toUpperCase() + "-" + itemsCode;
   const signature = crypto
     .createHash("sha256")

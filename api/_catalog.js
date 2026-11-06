@@ -10,9 +10,7 @@ module.exports = {
 // Opciones de molienda (clave del cliente → código corto en la referencia → texto)
 module.exports.GRIND = {
   grano: { code: "gr", label: "Grano entero" },
-  v60: { code: "mv", label: "Molido para V60 / Origami" },
-  prensa: { code: "mp", label: "Molido para prensa francesa" },
-  aeropress: { code: "ma", label: "Molido para AeroPress" },
-  moka: { code: "mm", label: "Molido para moka italiana" },
-  otro: { code: "mo", label: "Molido (otro método)" }
+  molido: { code: "mo", label: "Molido" }
 };
+// Valores antiguos de versiones anteriores del carrito
+module.exports.GRIND_LEGACY = ["v60", "prensa", "aeropress", "moka", "otro"];

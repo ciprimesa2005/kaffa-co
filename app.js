@@ -114,22 +114,20 @@ const money = n => "$" + n.toLocaleString("es-CO");
 // ===== Cart state =====
 let cart = JSON.parse(localStorage.getItem("kaffa_cart") || "[]");
 
-const GRIND_OPTIONS = {
-  grano: "Grano entero",
-  v60: "Molido para V60 / Origami",
-  prensa: "Molido para prensa francesa",
-  aeropress: "Molido para AeroPress",
-  moka: "Molido para moka italiana",
-  otro: "Molido (otro método)"
-};
-cart.forEach(c => { const p = (PRODUCTS.find(x => x.id === c.id)); if(p && p.grindOption && !GRIND_OPTIONS[c.opt]) c.opt = "grano"; });
-
-function setGrind(id, opt){
-  const item = cart.find(c => c.id === id);
-  if(!item || !GRIND_OPTIONS[opt]) return;
-  item.opt = opt;
-  saveCart();
-}
+const GRIND_OPTIONS = { grano: "Grano entero", molido: "Molido" };
+const LEGACY_MOLIDO = ["v60", "prensa", "aeropress", "moka", "otro"];
+(function migrateCart(){
+  const grindIds = PRODUCTS.filter(x => x.grindOption).map(x => x.id);
+  const merged = [];
+  cart.forEach(c => {
+    if(grindIds.includes(c.id)){
+      c.opt = LEGACY_MOLIDO.includes(c.opt) ? "molido" : (GRIND_OPTIONS[c.opt] ? c.opt : "grano");
+    }
+    const same = merged.find(m => m.id === c.id && (m.opt || "") === (c.opt || ""));
+    if(same){ same.qty += c.qty; } else { merged.push(c); }
+  });
+  cart = merged;
+})();
 
 function saveCart(){
   localStorage.setItem("kaffa_cart", JSON.stringify(cart));
@@ -149,8 +147,9 @@ function addToCart(id){
     return;
   }
 
-  const existing = cart.find(c => c.id === id);
-  const currentQty = existing ? existing.qty : 0;
+  const opt = product.grindOption ? "grano" : "";
+  const existing = cart.find(c => c.id === id && (c.opt || "") === opt);
+  const currentQty = cart.filter(c => c.id === id).reduce((n, c) => n + c.qty, 0);
 
   if(product.stockTotal !== undefined && currentQty + 1 > product.stock){
     showToast(`Solo quedan ${product.stock} unidades de este drop ⚡`);
@@ -158,17 +157,21 @@ function addToCart(id){
   }
 
   if(existing){ existing.qty += 1; }
-  else{ cart.push(product.grindOption ? { id, qty: 1, opt: "grano" } : { id, qty: 1 }); }
+  else{ cart.push(opt ? { id, qty: 1, opt } : { id, qty: 1 }); }
   saveCart();
   showToast(`${product.name} añadido al carrito ☕`);
   cartAddedFx(product);
 }
 
-function changeQty(id, delta){
-  const item = cart.find(c => c.id === id);
-  if(!item) return;
+function changeQty(id, delta, opt = ""){
+  let item = cart.find(c => c.id === id && (c.opt || "") === opt);
+  if(!item){
+    if(delta <= 0) return;
+    item = opt ? { id, qty: 0, opt } : { id, qty: 0 };
+    cart.push(item);
+  }
   item.qty += delta;
-  if(item.qty <= 0) cart = cart.filter(c => c.id !== id);
+  if(item.qty <= 0) cart = cart.filter(c => c !== item);
   saveCart();
 }
 
@@ -192,24 +195,31 @@ function renderCart(){
   if(cart.length === 0){
     wrap.innerHTML = `<div class="cart-empty">Tu carrito está vacío.<br>¡Ve a elegir tu tueste! ☕</div>`;
   } else {
-    wrap.innerHTML = cart.map(c => {
-      const p = findItem(c.id);
+    const groups = [];
+    cart.forEach(c => { if(!groups.includes(c.id)) groups.push(c.id); });
+    wrap.innerHTML = groups.map(id => {
+      const p = findItem(id);
       if(!p) return "";
+      const row = (label, opt) => {
+        const line = cart.find(c => c.id === id && (c.opt || "") === opt);
+        const q = line ? line.qty : 0;
+        return `<div class="qty-row">
+          ${label ? `<span class="grind-label">${label}</span>` : ""}
+          <button class="qty-btn" onclick="changeQty('${id}',-1,'${opt}')" ${q ? "" : "disabled"}>−</button>
+          <span>${q}</span>
+          <button class="qty-btn" onclick="changeQty('${id}',1,'${opt}')">+</button>
+        </div>`;
+      };
       return `
         <div class="cart-item">
           <img src="${p.img}" alt="${p.name}">
           <div class="cart-item-info">
             <strong>${p.name}</strong>
             <span>${money(p.price)} c/u</span>
-            ${p.grindOption ? `<label class="grind-pick">¿Cómo lo quieres?
-              <select onchange="setGrind('${p.id}', this.value)">${Object.entries(GRIND_OPTIONS).map(([k,v]) => `<option value="${k}"${c.opt === k ? " selected" : ""}>${v}</option>`).join("")}</select>
-            </label>` : ""}
-            <div class="qty-row">
-              <button class="qty-btn" onclick="changeQty('${p.id}',-1)">−</button>
-              <span>${c.qty}</span>
-              <button class="qty-btn" onclick="changeQty('${p.id}',1)">+</button>
-              <button class="remove-btn" onclick="removeItem('${p.id}')">Quitar</button>
-            </div>
+            ${p.grindOption
+              ? row(GRIND_OPTIONS.grano, "grano") + row(GRIND_OPTIONS.molido, "molido")
+              : row("", "")}
+            <button class="remove-btn" onclick="removeItem('${id}')">Quitar</button>
           </div>
         </div>`;
     }).join("");

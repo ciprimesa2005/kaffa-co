@@ -943,3 +943,8 @@ footer{ background:var(--tinta); color:var(--crema-2); padding:64px 0 24px; }
   font-family:'Barlow Condensed',sans-serif; font-size:.95rem; letter-spacing:0; text-transform:none; color:var(--tinta);
   padding:8px 10px; border:2px solid var(--tinta); border-radius:10px; background:#fff; width:100%; min-height:40px;
 }
+
+.cart-item-info .qty-row{ margin-top:6px; }
+.grind-label{ font-family:'Anton',sans-serif; font-size:.72rem; letter-spacing:1px; text-transform:uppercase; color:var(--rojo); min-width:92px; }
+.qty-btn:disabled{ opacity:.35; cursor:not-allowed; }
+.cart-item-info .remove-btn{ margin:8px 0 0; display:block; }
