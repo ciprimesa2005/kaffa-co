@@ -24,15 +24,18 @@ const PRODUCTS = [
     id: "drip-bags-x4",
     name: "Drip Bags x 4",
     kind: "drip",
-    kindLabel: "Café Castillo · Drip Bags x 4",
-    desc: "Café Castillo de Kaffa & CO en bolsitas individuales de goteo. Solo agrega agua caliente y disfruta donde estés. Pack de 4 unidades.",
+    kindLabel: "Café Castillo · Pack x 4 · 12 g c/u",
+    desc: "Café Castillo de Valparaíso, Antioquia · 1.850 msnm. Semi-lavado, tueste medio. Notas a caramelo, chocolate, panela y acidez media. 4 sobres de goteo de 12 g: solo agrega agua caliente y disfruta donde estés.",
     price: 20000,
     badge: "NUEVO",
     badgeType: "gold",
-    img: "assets/img/kit-kaffa-placeholder.jpg",
-    images: ["assets/img/kit-kaffa-placeholder.jpg"],
-    labelStyle: false,
-    comingSoon: true
+    img: "assets/img/drip-pack.jpg",
+    images: [
+      "assets/img/drip-pack.jpg",
+      "assets/img/drip-pouch.jpg",
+      "assets/img/drip-granos.jpg"
+    ],
+    labelStyle: false
   },
   {
     id: "taza-kaffa",
