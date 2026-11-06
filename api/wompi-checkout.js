@@ -74,7 +74,8 @@ module.exports = async (req, res) => {
 
   const amountInCents = total * 100;
   const currency = "COP";
-  const reference = "KAFFA-" + Date.now().toString(36).toUpperCase() + "-" + crypto.randomBytes(3).toString("hex").toUpperCase();
+  const itemsCode = ids.map(id => `${catalog[id].code}x${qtyById[id]}`).join("_");
+  const reference = "KAFFA-" + Date.now().toString(36).toUpperCase() + "-" + crypto.randomBytes(3).toString("hex").toUpperCase() + "-" + itemsCode;
   const signature = crypto
     .createHash("sha256")
     .update(`${reference}${amountInCents}${currency}${integritySecret}`)
