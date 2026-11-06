@@ -26,6 +26,22 @@ const METHODS = {
         text: () => "No muevas nada: deja que termine de gotear. Debe acabar cerca de 3:00." }
     ]
   },
+  aeropress: {
+    name: "AeroPress", tag: "Presión suave · limpio e intenso", maxCups: 1,
+    coffeePerCup: 15, waterPerCup: 225, ratio: "1:15", temp: "92 °C",
+    grind: ["Media-fina", "como azúcar"],
+    prep: "Antes de empezar: coloca el filtro de papel en la tapa, enjuágalo con agua caliente y arma la AeroPress sobre tu taza (método clásico, no invertido). La AeroPress prepara una taza por vez: para más, repite la receta.",
+    steps: [
+      { title: "Bloom", from: 0, to: 30, target: (c) => c * 3,
+        text: (c) => `Agrega el café, vierte ${c * 3} ml y remueve suave para mojarlo todo.` },
+      { title: "Completa el agua", from: 30, to: 50, target: (c, w) => w,
+        text: (c, w) => `Vierte hasta ${w} ml y remueve 3 veces.` },
+      { title: "Reposo", from: 50, to: 120, target: null,
+        text: () => "Coloca el émbolo sin presionar, solo para tapar, y espera." },
+      { title: "Presiona", from: 120, to: 150, target: null,
+        text: () => "Presiona despacio y con constancia durante unos 30 segundos. Detente cuando oigas el siseo del aire." }
+    ]
+  },
   prensa: {
     name: "Prensa francesa", tag: "Inmersión · cuerpo y dulzor",
     coffeePerCup: 16, waterPerCup: 240, ratio: "1:15", temp: "94 °C",
@@ -38,22 +54,6 @@ const METHODS = {
         text: () => "Tapa sin presionar el émbolo y espera. No lo toques." },
       { title: "Presiona y sirve", from: 240, to: 270, target: null,
         text: () => "Presiona despacio hasta el fondo y sirve enseguida para que no se amargue." }
-    ]
-  },
-  moka: {
-    name: "Moka / Greca", tag: "Intenso · estilo espresso",
-    coffeePerCup: 7, waterPerCup: 70, ratio: "1:10", temp: "Agua caliente",
-    grind: ["Media-fina", "un poco más gruesa que espresso"],
-    prep: "Usa la medida de tu moka: llena la base hasta la válvula y el filtro al ras, sin apretar. Las cantidades de arriba son una guía por taza pequeña.",
-    steps: [
-      { title: "Llena la base", from: 0, to: 30, target: (c, w) => w,
-        text: (c, w) => `Con agua recién hervida, llena la base hasta la válvula (≈ ${w} ml).` },
-      { title: "Agrega el café", from: 30, to: 60, target: null,
-        text: (c) => `Pon ${c} g en el filtro, nivelado y sin apretar. Arma y cierra bien.` },
-      { title: "Al fuego", from: 60, to: 210, target: null,
-        text: () => "Fuego medio-bajo y la tapa abierta. Espera a que el café suba." },
-      { title: "Detén y sirve", from: 210, to: 240, target: null,
-        text: () => "Cuando empiece a borbotear, retira del fuego y enfría la base con un paño húmedo." }
     ]
   },
   goteo: {
@@ -113,7 +113,7 @@ function renderChoices() {
   $("methodGrid").innerHTML = Object.entries(METHODS).map(([id, m]) =>
     `<button type="button" class="lab-method" data-method="${id}" aria-pressed="${state.method === id}">${m.name}<small>${m.tag}</small></button>`).join("");
   $("cupChips").innerHTML = [1, 2, 3].map((n) =>
-    `<button type="button" class="lab-chip" data-cups="${n}" aria-pressed="${state.cups === n}">${n} ${n === 1 ? "taza" : "tazas"}</button>`).join("");
+    `<button type="button" class="lab-chip" data-cups="${n}" aria-pressed="${state.cups === n}" ${n > (METHODS[state.method].maxCups || 3) ? "disabled" : ""}>${n} ${n === 1 ? "taza" : "tazas"}</button>`).join("");
 }
 
 function renderRecipe() {
@@ -246,7 +246,7 @@ document.addEventListener("click", (e) => {
   const b = e.target.closest("button");
   if (!b) return;
   if (b.dataset.cafe) { state.cafe = b.dataset.cafe; }
-  else if (b.dataset.method) { state.method = b.dataset.method; }
+  else if (b.dataset.method) { state.method = b.dataset.method; state.cups = Math.min(state.cups, METHODS[state.method].maxCups || 3); }
   else if (b.dataset.cups) { state.cups = parseInt(b.dataset.cups, 10); }
   else return;
   reset(); renderChoices(); renderRecipe();
