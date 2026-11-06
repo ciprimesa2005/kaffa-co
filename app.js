@@ -12,10 +12,11 @@ const PRODUCTS = [
     grindOption: true,
     badge: "EL TRADICIONAL",
     badgeType: "",
-    img: "assets/img/castillo-etiqueta-v3.jpg",
+    img: "assets/img/tradicional-etiqueta.jpg",
     images: [
-      "assets/img/castillo-etiqueta-v3.jpg",
-      "assets/img/castillo-bag.jpg",
+      "assets/img/tradicional-etiqueta.jpg",
+      "assets/img/tradicional-bolsa.jpg",
+      "assets/img/tradicional-granos.jpg",
       "assets/img/castillo-grano-molido.jpg"
     ],
     mediaClass: "wide-fit",
