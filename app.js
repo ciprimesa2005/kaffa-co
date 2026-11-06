@@ -194,7 +194,7 @@ function renderCart(){
 
   const wrap = document.getElementById("cartItems");
   if(cart.length === 0){
-    wrap.innerHTML = `<div class="cart-empty">Tu carrito está vacío.<br>¡Ve a elegir tu tueste! ☕</div>`;
+    wrap.innerHTML = `<div class="cart-empty">Tu carrito está vacío.<br>¡Ve a elegir tu café! ☕</div>`;
   } else {
     const groups = [];
     cart.forEach(c => { if(!groups.includes(c.id)) groups.push(c.id); });
