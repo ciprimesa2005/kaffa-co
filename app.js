@@ -200,6 +200,7 @@ function renderCart(){
   else{ note.textContent = `Te faltan ${money(120000-total)} para envío gratis`; }
 
   buildCheckoutLink(total);
+  if(typeof updatePayShipNote === "function") updatePayShipNote();
 }
 
 function buildCheckoutLink(total){
@@ -567,7 +568,102 @@ function onBuddyScroll(){
 }
 window.addEventListener("scroll", onBuddyScroll, { passive: true });
 
+// ===== Pago en línea (Wompi) =====
+let wompiCfg = null;
+const payOnline = document.getElementById("payOnline");
+const payForm = document.getElementById("payForm");
+
+async function initWompi(){
+  try{
+    const r = await fetch("/api/wompi-config", { cache: "no-store" });
+    if(!r.ok) return;
+    const cfg = await r.json();
+    if(!cfg.enabled) return;
+    wompiCfg = cfg;
+    payOnline.hidden = false;
+    document.getElementById("waLabel").textContent = "O coordina por WhatsApp:";
+    document.getElementById("payMode").hidden = cfg.mode !== "sandbox";
+    updatePayShipNote();
+  }catch(e){ /* sin pago en línea: el carrito sigue funcionando por WhatsApp */ }
+}
+
+function updatePayShipNote(){
+  const el = document.getElementById("payShip");
+  if(!wompiCfg || !el) return;
+  const total = cartTotal();
+  if(total >= wompiCfg.freeShippingFrom){ el.textContent = "🎉 Envío gratis en este pedido."; }
+  else if(wompiCfg.shippingFee){ el.textContent = `Envío: ${money(wompiCfg.shippingFee)} (gratis desde ${money(wompiCfg.freeShippingFrom)}).`; }
+  else{ el.textContent = `Envío gratis desde ${money(wompiCfg.freeShippingFrom)}. Si aplica costo de envío, te lo confirmamos por WhatsApp.`; }
+}
+
+document.getElementById("payBtn").addEventListener("click", () => {
+  if(cart.length === 0){ showToast("Agrega un producto para pagar en línea ☕"); return; }
+  payForm.hidden = !payForm.hidden;
+  updatePayShipNote();
+});
+
+payForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  const err = document.getElementById("payError");
+  const btn = document.getElementById("paySubmit");
+  err.hidden = true;
+  const f = Object.fromEntries(new FormData(payForm).entries());
+  btn.disabled = true; btn.textContent = "Preparando pago…";
+  try{
+    const r = await fetch("/api/wompi-checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ items: cart.map(c => ({ id: c.id, qty: c.qty })), customer: f })
+    });
+    const data = await r.json().catch(() => ({}));
+    if(!r.ok || !data.url){
+      err.textContent = data.message || "No pudimos iniciar el pago. Intenta de nuevo o escríbenos por WhatsApp.";
+      err.hidden = false;
+      btn.disabled = false; btn.textContent = "Ir a pagar con Wompi →";
+      return;
+    }
+    window.location.href = data.url;
+  }catch(e2){
+    err.textContent = "Sin conexión. Intenta de nuevo o escríbenos por WhatsApp.";
+    err.hidden = false;
+    btn.disabled = false; btn.textContent = "Ir a pagar con Wompi →";
+  }
+});
+
+const payResult = document.getElementById("payResult");
+function showPayResult(title, text){
+  document.getElementById("payResultTitle").textContent = title;
+  document.getElementById("payResultText").textContent = text;
+  payResult.hidden = false;
+}
+document.getElementById("payResultClose").addEventListener("click", () => { payResult.hidden = true; });
+
+async function handlePaymentReturn(){
+  const q = new URLSearchParams(window.location.search);
+  const id = q.get("id");
+  if(!q.get("pago") || !id) return;
+  history.replaceState(null, "", window.location.pathname);
+  try{
+    const r = await fetch("/api/wompi-status?id=" + encodeURIComponent(id), { cache: "no-store" });
+    const data = await r.json();
+    if(data.status === "APPROVED"){
+      cart = []; saveCart();
+      payForm.reset(); payForm.hidden = true; closeCartFn();
+      showPayResult("¡Pago recibido! 🎉", "Gracias por ser parte de la comunidad Kaffa & CO. Te escribiremos por WhatsApp o correo para coordinar el envío de tu pedido.");
+      buddySay("¡Gracias por tu compra! 🤘", "dj");
+    }else if(data.status === "PENDING"){
+      showPayResult("Pago en proceso ⏳", "Tu pago está pendiente de confirmación. Apenas se apruebe te escribiremos. Tu carrito sigue guardado.");
+    }else{
+      showPayResult("No se completó el pago", "El pago no fue aprobado, así que no se hizo ningún cobro. Tu carrito sigue guardado: puedes intentarlo de nuevo o escribirnos por WhatsApp.");
+    }
+  }catch(e){
+    showPayResult("Estamos verificando tu pago", "No pudimos consultar el estado en este momento. Si pagaste, escríbenos por WhatsApp con tu comprobante y lo confirmamos.");
+  }
+}
+
 // ===== Init =====
 renderProducts();
 renderDrops();
 renderCart();
+initWompi();
+handlePaymentReturn();

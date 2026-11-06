@@ -891,3 +891,31 @@ footer{ background:var(--tinta); color:var(--crema-2); padding:64px 0 24px; }
   .reveal{ transition:none; }
   .product-card.reveal.in:hover, .drop-card.reveal.in:hover{ transform:none; }
 }
+
+/* ==== Online payment (Wompi) ==== */
+.pay-online{ margin-bottom:14px; }
+.btn-wompi{ background:var(--tinta); color:var(--crema); width:100%; justify-content:center; box-shadow:5px 5px 0 var(--gold); }
+.btn-wompi:hover{ transform:translate(-2px,-2px); box-shadow:7px 7px 0 var(--gold); }
+.pay-form{ margin-top:14px; display:grid; gap:10px; }
+.pay-form[hidden], .pay-online[hidden], .pay-mode[hidden], .pay-error[hidden], .pay-result[hidden]{ display:none; }
+.pay-form label{ display:grid; gap:4px; font-family:'Anton',sans-serif; font-size:.72rem; letter-spacing:1px; text-transform:uppercase; }
+.pay-form input{
+  font-family:'Barlow Condensed',sans-serif; font-size:1rem; letter-spacing:0; text-transform:none;
+  padding:11px 14px; border:2px solid var(--tinta); border-radius:12px; background:#fff; width:100%;
+}
+.pay-row{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.pay-form .btn{ width:100%; justify-content:center; }
+.pay-ship, .pay-legal{ margin:0; font-size:.8rem; color:#7a7160; text-align:center; line-height:1.35; }
+.pay-mode{ margin:0; padding:7px 10px; border:2px dashed var(--rojo); border-radius:10px; color:var(--rojo); font-size:.8rem; text-align:center; }
+.pay-error{ margin:0; padding:8px 12px; border-radius:10px; background:var(--rojo); color:#fff; font-size:.9rem; }
+.cart-foot{ max-height:75vh; overflow-y:auto; }
+.pay-result{
+  position:fixed; inset:0; z-index:500; display:flex; align-items:center; justify-content:center;
+  background:rgba(32,26,18,.6); padding:20px;
+}
+.pay-result-card{
+  background:var(--crema); border:3px solid var(--tinta); border-radius:var(--radius);
+  box-shadow:8px 8px 0 var(--tinta); padding:30px 26px; max-width:420px; text-align:center;
+}
+.pay-result-card h3{ font-size:1.7rem; }
+.pay-result-card p{ color:#4a4030; }
