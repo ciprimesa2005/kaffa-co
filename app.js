@@ -705,6 +705,19 @@ async function handlePaymentReturn(){
   }
 }
 
+// Hero image -> straight to the Tradicional card
+const heroProductLink = document.getElementById("heroProductLink");
+if(heroProductLink){
+  heroProductLink.addEventListener("click", e => {
+    const card = document.querySelector("#productGrid .product-card");
+    if(!card) return;
+    e.preventDefault();
+    card.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
+    card.classList.remove("flash"); void card.offsetWidth; card.classList.add("flash");
+    setTimeout(() => card.classList.remove("flash"), 1800);
+  });
+}
+
 // ===== Init =====
 renderProducts();
 renderDrops();

@@ -948,3 +948,8 @@ footer{ background:var(--tinta); color:var(--crema-2); padding:64px 0 24px; }
 .grind-label{ font-family:'Anton',sans-serif; font-size:.72rem; letter-spacing:1px; text-transform:uppercase; color:var(--rojo); min-width:92px; }
 .qty-btn:disabled{ opacity:.35; cursor:not-allowed; }
 .cart-item-info .remove-btn{ margin:8px 0 0; display:block; }
+
+/* ==== Hero image link ==== */
+.hero-img-link{ display:block; cursor:pointer; }
+@keyframes card-flash{ 0%,100%{ box-shadow:6px 6px 0 rgba(32,26,18,.15); } 30%,70%{ box-shadow:0 0 0 5px var(--gold-text), 6px 6px 0 rgba(32,26,18,.15); } }
+.product-card.flash{ animation:card-flash 1.6s ease-in-out; }
