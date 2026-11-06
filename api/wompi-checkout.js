@@ -2,6 +2,7 @@ const crypto = require("crypto");
 const catalog = require("./_catalog");
 
 const FREE_SHIPPING_FROM = 120000;
+const DEFAULT_SHIPPING_FEE = 15000;
 
 const clean = (v, max) =>
   String(v == null ? "" : v).replace(/[\u0000-\u001f<>]/g, " ").replace(/\s+/g, " ").trim().slice(0, max);
@@ -43,7 +44,8 @@ module.exports = async (req, res) => {
   const subtotal = ids.reduce((sum, id) => sum + catalog[id].price * qtyById[id], 0);
 
   const feeEnv = parseInt(process.env.SHIPPING_FEE || "", 10);
-  const shipping = subtotal < FREE_SHIPPING_FROM && Number.isFinite(feeEnv) && feeEnv > 0 ? feeEnv : 0;
+  const fee = Number.isFinite(feeEnv) && feeEnv >= 0 ? feeEnv : DEFAULT_SHIPPING_FEE;
+  const shipping = subtotal < FREE_SHIPPING_FROM ? fee : 0;
   const total = subtotal + shipping;
 
   // --- Datos del cliente ---

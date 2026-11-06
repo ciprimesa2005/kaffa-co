@@ -592,8 +592,10 @@ function updatePayShipNote(){
   if(!wompiCfg || !el) return;
   const total = cartTotal();
   if(total >= wompiCfg.freeShippingFrom){ el.textContent = "🎉 Envío gratis en este pedido."; }
-  else if(wompiCfg.shippingFee){ el.textContent = `Envío: ${money(wompiCfg.shippingFee)} (gratis desde ${money(wompiCfg.freeShippingFrom)}).`; }
-  else{ el.textContent = `Envío gratis desde ${money(wompiCfg.freeShippingFrom)}. Si aplica costo de envío, te lo confirmamos por WhatsApp.`; }
+  else if(wompiCfg.shippingFee){
+    el.textContent = `Envío ${money(wompiCfg.shippingFee)} (gratis desde ${money(wompiCfg.freeShippingFrom)}). Total a pagar: ${money(total + wompiCfg.shippingFee)}.`;
+  }
+  else{ el.textContent = `Envío gratis desde ${money(wompiCfg.freeShippingFrom)}.`; }
 }
 
 document.getElementById("payBtn").addEventListener("click", () => {
