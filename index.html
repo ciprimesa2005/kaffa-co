@@ -354,10 +354,10 @@
         <label>Nombre completo<input name="name" autocomplete="name" required maxlength="80"></label>
         <label>Correo<input name="email" type="email" autocomplete="email" required maxlength="120"></label>
         <label>Celular<input name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="3001234567" required maxlength="20"></label>
-        <label>Dirección<input name="address" autocomplete="street-address" required maxlength="120"></label>
+        <label>Dirección<input name="address" autocomplete="street-address" required maxlength="80"></label>
         <div class="pay-row">
-          <label>Ciudad<input name="city" autocomplete="address-level2" required maxlength="60"></label>
-          <label>Departamento<input name="region" autocomplete="address-level1" required maxlength="60"></label>
+          <label>Ciudad<input name="city" autocomplete="address-level2" required maxlength="25"></label>
+          <label>Departamento<input name="region" autocomplete="address-level1" required maxlength="25"></label>
         </div>
         <p class="pay-ship" id="payShip"></p>
         <p class="pay-error" id="payError" role="alert" hidden></p>
@@ -412,7 +412,7 @@
 <!-- Recibe la respuesta de Mailchimp en segundo plano, sin sacar al cliente del sitio -->
 <iframe name="mc-hidden-iframe" style="display:none;" title="Mailchimp"></iframe>
 
-<script src="app.js?v=67"></script>
+<script src="app.js?v=68"></script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>

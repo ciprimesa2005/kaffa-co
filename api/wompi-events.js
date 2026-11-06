@@ -11,8 +11,19 @@ function safeEqual(a, b) {
 }
 
 // Referencia: KAFFA-<tiempo>-<azar>-TRx2_DBx1  →  productos y cantidades
+// Referencia: KAFFA-<tiempo>-<azar>-<productos>-<dirección en base64url>
+function parseShipping(reference) {
+  const enc = String(reference || "").split("-").slice(4).join("-");
+  if (!enc) return null;
+  try {
+    const raw = enc.replace(/-/g, "+").replace(/_/g, "/");
+    const arr = JSON.parse(Buffer.from(raw, "base64").toString("utf8"));
+    return Array.isArray(arr) ? { address: String(arr[0] || ""), city: String(arr[1] || ""), region: String(arr[2] || "") } : null;
+  } catch (e) { return null; }
+}
+
 function parseItems(reference) {
-  const code = String(reference || "").split("-").slice(3).join("-");
+  const code = String(reference || "").split("-")[3] || "";
   return code.split("_").map(tok => {
     const m = /^([A-Z0-9]+)x(\d+)([a-z]{0,2})$/.exec(tok);
     if (!m) return null;
@@ -30,6 +41,9 @@ function buildEmail(tx) {
   const shipping = items.length ? Math.max(0, total - subtotal) : null;
   const cd = tx.customer_data || {};
   const sa = tx.shipping_address || {};
+  const ship = parseShipping(tx.reference) || {};
+  const address = sa.address_line_1 || ship.address || "";
+  const cityLine = [sa.city || ship.city, sa.region || ship.region].filter(Boolean).join(", ");
   const name = cd.full_name || sa.name || "Cliente";
   const email = tx.customer_email || "";
   const phone = String(cd.phone_number || sa.phone_number || "").replace(/\D/g, "");
@@ -47,7 +61,7 @@ function buildEmail(tx) {
   <ul style="margin:0;padding-left:18px">${itemsHtml}</ul>
   <table style="margin-top:10px">${shipping !== null ? row("Envío", money(shipping)) : ""}${row("Total pagado", money(total))}${row("Método", esc(tx.payment_method_type || "—"))}</table>
   <h3 style="margin:18px 0 6px">Cliente y envío</h3>
-  <table>${row("Nombre", esc(name))}${row("Correo", email ? `<a href="mailto:${esc(email)}">${esc(email)}</a>` : "—")}${row("Celular", phone ? `<a href="https://wa.me/57${esc(phone)}">${esc(phone)}</a> (WhatsApp)` : "—")}${row("Dirección", esc(sa.address_line_1 || "—"))}${row("Ciudad", esc([sa.city, sa.region].filter(Boolean).join(", ") || "—"))}</table>
+  <table>${row("Nombre", esc(name))}${row("Correo", email ? `<a href="mailto:${esc(email)}">${esc(email)}</a>` : "—")}${row("Celular", phone ? `<a href="https://wa.me/57${esc(phone)}">${esc(phone)}</a> (WhatsApp)` : "—")}${row("Dirección", esc(address || "—"))}${row("Ciudad", esc(cityLine || "—"))}</table>
   <p style="margin-top:18px;color:#7a7160;font-size:13px">Más detalles en tu panel de Wompi → Transacciones. Si pidió café molido, revisa para qué método.</p>
 </div>`;
   return { subject: `Nuevo pedido pagado ${money(total)} — ${name}`, html };

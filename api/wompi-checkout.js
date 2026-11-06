@@ -59,9 +59,9 @@ module.exports = async (req, res) => {
   const email = clean(c.email, 120).toLowerCase();
   let phone = clean(c.phone, 20).replace(/\D/g, "");
   if (phone.length === 12 && phone.startsWith("57")) phone = phone.slice(2);
-  const address = clean(c.address, 120);
-  const city = clean(c.city, 60);
-  const region = clean(c.region, 60);
+  const address = clean(c.address, 80);
+  const city = clean(c.city, 25);
+  const region = clean(c.region, 25);
 
   if (name.length < 2) return fail(res, 400, "bad_name", "Escribe tu nombre completo.");
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return fail(res, 400, "bad_email", "Revisa tu correo.");
@@ -86,7 +86,15 @@ module.exports = async (req, res) => {
   const amountInCents = total * 100;
   const currency = "COP";
   const itemsCode = keys.map(k => `${catalog[lines[k].id].code}x${lines[k].qty}${lines[k].opt ? catalog.GRIND[lines[k].opt].code : ""}`).join("_");
-  const reference = "KAFFA-" + Date.now().toString(36).toUpperCase() + "-" + crypto.randomBytes(3).toString("hex").toUpperCase() + "-" + itemsCode;
+  // Wompi no devuelve la dirección en el aviso de pago, así que viaja (comprimida) dentro de la referencia (máx. 255).
+  const b64url = (str) => Buffer.from(str, "utf8").toString("base64").replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  const refHead = "KAFFA-" + Date.now().toString(36).toUpperCase() + "-" + crypto.randomBytes(3).toString("hex").toUpperCase() + "-" + itemsCode;
+  let shipAddress = address;
+  let reference = refHead + "-" + b64url(JSON.stringify([shipAddress, city, region]));
+  while (reference.length > 250 && shipAddress.length > 12) {
+    shipAddress = shipAddress.slice(0, -6);
+    reference = refHead + "-" + b64url(JSON.stringify([shipAddress, city, region]));
+  }
   const signature = crypto
     .createHash("sha256")
     .update(`${reference}${amountInCents}${currency}${integritySecret}`)
