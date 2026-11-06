@@ -499,8 +499,9 @@ function cartAddedFx(product){
 function countUp(el){
   const target = parseInt(el.dataset.count, 10);
   const prefix = el.dataset.prefix || "";
+  const suffix = el.dataset.suffix || "";
   const pad = parseInt(el.dataset.pad || "0", 10);
-  const fmt = n => prefix + (pad ? String(n).padStart(pad, "0") : n.toLocaleString("es-CO"));
+  const fmt = n => prefix + (pad ? String(n).padStart(pad, "0") : n.toLocaleString("es-CO")) + suffix;
   if(reduceMotion){ el.textContent = fmt(target); return; }
   const dur = 1400, t0 = performance.now();
   const step = now => {
